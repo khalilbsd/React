@@ -1,0 +1,13 @@
+.rootb{
+    /*background-image: linear-gradient(-45deg,#2de5fd, #0f7fda );*/
+    background-color: rgb(230, 230, 230);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh !important;
+}
+
+body{
+    min-height: 100vh !important;
+
+}
+

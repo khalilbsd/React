@@ -1,0 +1,54 @@
+.MuiTab-root{
+    text-transform:lowercase !important;
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
+
+}
+
+.root{
+    width: 20% !important;
+}
+
+.state{
+  float: left;
+ margin-top: 5%;
+    margin-left: 5%;
+}
+
+#content{
+    padding-top: 1%;
+}
+
+/*state*/
+.invi-status-pending{
+    background-color: rgb(255, 174, 0);
+    color: white;
+    width: 150% !important;
+    text-align: center;
+    border-radius: 40px;
+}
+
+.invi-status-accept{
+    background-color: green;
+    color: white;
+    width: 150% !important;
+    text-align: center;
+    border-radius: 40px;
+}
+
+.invi-status-denied{
+    background-color: red;
+    color: white;
+    width: 150% !important;
+    text-align: center;
+    border-radius: 40px;
+}
+
+/*actions*/
+.accept-btn{
+    color: green !important;
+}
+
+.deny-btn{
+    color: red !important;
+}

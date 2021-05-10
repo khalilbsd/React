@@ -1,0 +1,100 @@
+
+
+/*end profile image*/
+
+/*cards color*/
+
+
+.card-prod-sector,
+.card-prof-action {
+    background-color: rgb(255, 255, 255) !important;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(46, 45, 45, 0.2);
+
+}
+
+/*vertical ligne and information card style*/
+.card-body {
+    text-align: center;
+    margin-top: 5%;
+}
+#info {
+    height: 500px;
+    width: 30%;
+    margin-left: 3%;
+
+}
+
+/*action card styling*/
+.card-body-action {
+    padding-top: 1%;
+    margin-left: 2%;
+}
+
+/*name of the compony*/
+.cmpName {
+
+    margin-left: 2%;
+}
+
+/* btn update and delete account*/
+.btnUpdate {
+    margin-left: 5%;
+    margin-bottom: 1%;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 5%;
+    border: none;
+    outline: none;
+    background-color: #68A5CF;
+
+}
+
+.btnUpdate:hover {
+    background-color: #8fbcdb;
+}
+
+.btnDelete {
+    margin-top: 3%;
+    margin-left: 3%;
+    color: white;
+    border-radius: 40px;
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 25%;
+    border: none;
+    outline: none;
+    background-color: #df2023;
+}
+
+.btnDelete:hover {
+    background-color: #E64C4F;
+}
+
+.MuiSvgIcon-root {
+    margin-right: 4%;
+    margin-bottom: 1%;
+}
+
+/*end of the button customazation*/
+/*separate ligne*/
+
+.seprate {
+    margin-left: 5%;
+    padding-left: 10%;
+    width: 90%;
+    color: black;
+}
+
+/* cmp description*/
+
+.descCmp {
+    color: #585e6f;
+    margin-left: 1%;
+    margin-bottom: 2%;
+}

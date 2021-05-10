@@ -1,0 +1,24 @@
+{
+  "name": "apii-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "forest": "cd server && npm run dev ",
+    "jungle": "cd server2 && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheOneWhoKnocks69/apii-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheOneWhoKnocks69/apii-app/issues"
+  },
+  "homepage": "https://github.com/TheOneWhoKnocks69/apii-app#readme",
+  "dependencies": {
+    "@sentry/react": "^6.2.5"
+  }
+}

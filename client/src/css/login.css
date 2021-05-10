@@ -1,0 +1,38 @@
+.container {
+    text-align: center;
+
+}
+
+.input {
+    margin-left: 25%;
+    text-align: center;
+    width: 50%;
+    padding-top: 10px;
+}
+
+input {
+
+    text-align: center;
+}
+
+.btn {
+    width: 18%;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+.logfr {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 5px 9px #424242;
+    margin-left: 25%;
+    margin-top: 12%;
+
+    height: 60vh;
+    width: 50%;
+}
+
+.contlog {
+    margin-top: 12%;
+    padding-top: 20%;
+}

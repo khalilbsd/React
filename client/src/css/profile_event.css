@@ -1,0 +1,15 @@
+.btn-participate{
+    text-transform: lowercase !important;
+    color:#2196F3 !important;
+    border-radius: 5 !important;
+    font-size: 17px !important;
+    margin-top:25% !important;
+    margin-left: 20% !important;
+    padding-left: 80% !important;
+    padding-right: 80% !important;
+}
+
+.btn-participate:hover{
+    background-color: rgb(68, 167, 248) !important;
+    color: white !important;
+}
