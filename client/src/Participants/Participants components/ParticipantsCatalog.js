@@ -11,7 +11,6 @@ import { action__get__accounts } from '../../actions/action__accounts';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#e4f7f8",
     paddingLeft: "10px",
     paddingRight: "10px",
     paddingTop: "10px",
@@ -34,7 +33,7 @@ export default function ParticipantsCatalog({ _id }) {
   const store__accounts = useSelector((state) => state.reducer__accounts);
   const store__participants = useSelector((state) => state.reducer__participants);
   return (
-    <Card>
+    <div>
       {/*ParticipantsCatalog*/}
       <Grid container="container" className={classes.root} spacing={2}>
         {/*Title*/}
@@ -58,6 +57,6 @@ export default function ParticipantsCatalog({ _id }) {
           )
         }
       </Grid>
-    </Card >
+      </div>
   );
 }
