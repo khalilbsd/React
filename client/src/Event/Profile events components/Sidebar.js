@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     join_card:{
         minHeight: 92,
         backgroundColor: '#2196F3',
-        marginBottom: 50
+        marginBottom: 11
     },
     event_ma:{
         color: '#ffff',
