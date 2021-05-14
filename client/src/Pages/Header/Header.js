@@ -28,7 +28,10 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     btn: {
-        height: 60
+        height: 60,
+        textTransform:'capitalize',
+        paddingLeft:20,
+        paddingRight:20
     },
     logo: {
         maxWidth: 80,
@@ -55,7 +58,7 @@ export default function Header({ isAuth, role }) {
                         <Link to='/events' className={classes.link}>
                             <Button color="inherit" className={classes.btn}>Events</Button>
                         </Link>
-                        <Link to='/marketplace' className={classes.link}>
+                        <Link to='/marketplace/generalmarketplace' className={classes.link}>
                             <Button color="inherit" className={classes.btn}>Marketplace</Button>
                         </Link>
                         

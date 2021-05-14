@@ -70,7 +70,7 @@ export default function Login2({ setIsAuth, set_id, setRole, set_verified_by_adm
                     if (response.data.role == "2") {
                         history.push("/dashboardadmin");
                     } else if (response.data.role == "0") {
-                        history.push("/marketplace");
+                        history.push("/marketplace/generalmarketplace");
                     }
 
                 } else {

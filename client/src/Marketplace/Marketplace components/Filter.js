@@ -4,19 +4,26 @@ import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles({
     root: {
-        height: 240,
+        margin:'10%',
+        marginBottom:'10%',
+        height: 'auto',
         flexGrow: 1,
-        maxWidth: 400
+        maxWidth: 400,
+        
+    },
+    card:{
+        marginTop:'5%'
     }
 });
 
 export default function Filter({ setSearchData }) {
     const classes = useStyles();
     return (
-        <div>
+        <Card className={classes.card}>
             <TreeView
                 className={classes.root}
                 defaultCollapseIcon={<ExpandMoreIcon />}
@@ -32,6 +39,6 @@ export default function Filter({ setSearchData }) {
                     <TreeItem nodeId="request" label="Request" />
                 </TreeItem>
             </TreeView>
-        </div>
+        </Card>
     );
 }

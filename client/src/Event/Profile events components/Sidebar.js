@@ -180,7 +180,7 @@ export default function Participate(props) {
                                     <CardActions>
                                        
                                         <div className={classes.event_ma}>
-                                        <Link to={`/eventmarketplace/${event_id}`} className={classes.link}>
+                                        <Link to={`/marketplace/${event_id}`} className={classes.link}>
                                             Join Event Marketplace
                                             </Link>
                                         </div>

@@ -18,7 +18,8 @@ const schema__meetings = mongoose.Schema({
     state: {
         type: String,
         default: "pending"
-    }
+    },
+    description: String,
 });
 
 const model__meetings = mongoose.model('meetings', schema__meetings);

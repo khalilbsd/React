@@ -59,9 +59,9 @@ export const action__delete__posts = (id) => async (dispatch) => {
     }
   };
 
-  export const action__get__verified__posts=(id)=> async(dispatch)=>{ 
+  export const action__get__verified__posts=(id,event_id)=> async(dispatch)=>{ 
     try {
-        const {data}=await api__get__verified__posts(id);
+        const {data}=await api__get__verified__posts(id,event_id);
         dispatch({ type: 'FETCH VERIFIED', payload:data});
     } catch (error) {
         console.log(error);

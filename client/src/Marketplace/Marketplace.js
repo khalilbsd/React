@@ -8,9 +8,10 @@ import {useDispatch} from 'react-redux';
 import {action__get__verified__posts} from '../actions/action__posts';
 import {withRouter} from "react-router-dom";
 import Waiting_Card from './Marketplace components/waiting card'
-//import {action__get__one__account} from '../actions/action__accounts';
+
 import SearchBar from './Marketplace components/SearchBar'
 import '../css/markplace.css';
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,18 +19,22 @@ const useStyles = makeStyles((theme) => ({
         //paddingLeft:"10px",
     },
     loadingCircle: {
-        color: '#2196F3'
+        color: '#2196F3',
+        marginLeft:'48%',
+        marginTop:'10%',
+        marginBottom:'10%',
     }
 }));
 function Marketplace() {
+    let { id: event_id } = useParams(); 
     const classes = useStyles();
     const dispatch = useDispatch();
     const [searchData, setSearchData] = useState('');
     const id = useSelector((state) => state.reducer__login)
     /*geting info form database */
     useEffect(() => {
-        dispatch(action__get__verified__posts(id[0]));
-    }, [dispatch]);
+        dispatch(action__get__verified__posts(id[0], event_id));
+    }, [event_id]);
     const store__posts = useSelector((state) => state.reducer__posts);
 
     console.log(store__posts);
@@ -61,16 +66,6 @@ function Marketplace() {
                             {/*Catalog*/}
                             <Grid item="item" xs={7}>
                                 <Grid container="container" spacing={2}>
-                                    {/*
-                                        store__posts.map((post, key) => (
-                                                !post
-                                                ? <LinearProgress/>
-                                                : <Grid key={post._id} item="item" xs={12} sm={12} md={6} lg={4} xl={3}>
-                                                    <Item idi={key} post={post}/>
-                                                </Grid>
-                                            ))
-                                        */}
-                                    
                                     {
                                          store__posts.filter((post) => {
                                             if (post == "") {

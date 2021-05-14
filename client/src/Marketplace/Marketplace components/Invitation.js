@@ -1,41 +1,61 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../css/invi.css';
 import Modal from 'react-bootstrap/Modal';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import CheckIcon from '@material-ui/icons/Check';
 import TextField from '@material-ui/core/TextField';
 import Form from 'react-bootstrap/Form';
 //redux
-import {useDispatch} from 'react-redux';
-import {action__post__invitations} from '../../actions/action__invitations.js';
-import {action__get__invitations} from '../../actions/action__invitations';
-import {useSelector} from 'react-redux';
-import {action__verify__my__invitation} from '../../actions/action__invitations';
+import { useDispatch } from 'react-redux';
+import { action__post__invitations } from '../../actions/action__invitations.js';
+import { action__get__invitations } from '../../actions/action__invitations';
+import { useSelector } from 'react-redux';
+import { action__verify__my__invitation } from '../../actions/action__invitations';
 
-const Invitation = ({invite}) => {
+import { useParams } from "react-router-dom";
+import { action__post__meetings } from '../../actions/action__meetings';
+
+const Invitation = ({ invite }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const id = useSelector((state) => state.reducer__login)
     //const [nb, setNb] = useState({sent: true, send: true})
     const [request, setInvi] = useState(
-        {description: "",
-        post_id: invite._id, 
-        offerer_id: invite.account,
-         requester_id: id[0]
+        {
+            description: "",
+            post_id: invite._id,
+            offerer_id: invite.account,
+            requester_id: id[0]
         })
     const dispatch = useDispatch();
-   /*
-    useEffect(() => {
-        dispatch(action__verify__my__invitation(id[0],invite._id));
-    }, [invite]);
-    const exist = useSelector((state) => state.reducer__invitations);
-    //console.log(already_requested);
-    */
+    /*
+     useEffect(() => {
+         dispatch(action__verify__my__invitation(id[0],invite._id));
+     }, [invite]);
+     const exist = useSelector((state) => state.reducer__invitations);
+     //console.log(already_requested);
+     */
+
+    //ji
+    let { id: event_id } = useParams(); //this is the event id passed as a param in the url
+
+    const [newMeeting, setNewMeeting] = useState({
+        event_id: event_id,
+        party_one_id: id[0],
+        party_two_id: invite.account,
+        unique_id: event_id + id[0] + invite.account
+    });
+
     const handleform = (e) => {
         e.preventDefault();
-        dispatch(action__post__invitations(request));
+        event_id == "generalmarketplace" ? (
+            dispatch(action__post__invitations(request))
+        ) : (
+            dispatch(action__post__meetings(newMeeting))
+        )
+
         handleClose();
     }
 
@@ -51,10 +71,10 @@ const Invitation = ({invite}) => {
             <BusinessCenterIcon/>
         </Button>
             */}
-           
-           <Button variant="primary" className="btn-express" onClick={handleShow}>
-            <BusinessCenterIcon/>
-        </Button>
+
+            <Button variant="primary" className="btn-express" onClick={handleShow}>
+                <BusinessCenterIcon />
+            </Button>
 
             <Modal show={show} onHide={handleClose} className="modal" centered="centered">
                 <Form autoComplete="off" noValidate="noValidate" onSubmit={handleform}>
@@ -67,10 +87,16 @@ const Invitation = ({invite}) => {
                             <TextField
                                 id="standard-basic"
                                 label="Your answer"
-                                onChange={(e) => setInvi({
-                                    ...request,
-                                    description: e.target.value
-                                })}/>
+                                onChange={(e) => {
+                                    setInvi({
+                                        ...request,
+                                        description: e.target.value
+                                    });
+                                    setNewMeeting({
+                                        ...newMeeting,
+                                        description: e.target.value
+                                    })
+                                }} />
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

@@ -116,7 +116,7 @@ function App() {
                     isAuth={isAuth} />
                 <PageProtection
                     exact="exact"
-                    path="/marketplace"
+                    path="/marketplace/:id"
                     component={() => <Marketplace _id={_id} />}
                     isAuth={isAuth}
                     verified_by_admin={verified_by_admin} />
