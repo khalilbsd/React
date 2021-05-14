@@ -74,19 +74,14 @@ const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-        height: '100vh',
+        //height: '100vh',
         overflow: 'auto',
     },
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-    },
+    
     fixedHeight: {
         height: 240,
     },
@@ -103,7 +98,7 @@ export default function Dashboard() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     //end default
     //begin account display
     useEffect(() => {
@@ -125,9 +120,7 @@ export default function Dashboard() {
                         {
                             store__accounts.map((account, key) => (
                                 <Grid item xs={12}>
-                                    <Paper className={classes.paper}>
                                         <AccountCard account={account} />
-                                    </Paper>
                                 </Grid>
                             ))
                         }

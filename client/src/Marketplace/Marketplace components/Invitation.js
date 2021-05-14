@@ -3,28 +3,36 @@ import '../../css/invi.css';
 import Modal from 'react-bootstrap/Modal';
 import {Button} from 'react-bootstrap';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
+import CheckIcon from '@material-ui/icons/Check';
 import TextField from '@material-ui/core/TextField';
 import Form from 'react-bootstrap/Form';
+//redux
 import {useDispatch} from 'react-redux';
 import {action__post__invitations} from '../../actions/action__invitations.js';
 import {action__get__invitations} from '../../actions/action__invitations';
 import {useSelector} from 'react-redux';
+import {action__verify__my__invitation} from '../../actions/action__invitations';
 
-const Invitation = ({account, post, myid}) => {
+const Invitation = ({invite}) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [nb, setNb] = useState({sent: true, send: true})
+    const id = useSelector((state) => state.reducer__login)
+    //const [nb, setNb] = useState({sent: true, send: true})
     const [request, setInvi] = useState(
-        {description: "", post_id: post._id, offerer_id: account._id, requester_id: "606704f2a34d132d702552f1"}
-    )
+        {description: "",
+        post_id: invite._id, 
+        offerer_id: invite.account,
+         requester_id: id[0]
+        })
     const dispatch = useDispatch();
-
+   /*
     useEffect(() => {
-        dispatch(action__get__invitations());
-    }, [dispatch]);
-    const already_requested = useSelector((state) => state.reducer__invitations);
-
+        dispatch(action__verify__my__invitation(id[0],invite._id));
+    }, [invite]);
+    const exist = useSelector((state) => state.reducer__invitations);
+    //console.log(already_requested);
+    */
     const handleform = (e) => {
         e.preventDefault();
         dispatch(action__post__invitations(request));
@@ -33,11 +41,22 @@ const Invitation = ({account, post, myid}) => {
 
     const invi = (
         <div className="modal-invitation">
-            <Button variant="primary" className="btn-express" onClick={handleShow}>
-                <BusinessCenterIcon/>
+            {/*
+                exist.length > 0?
+                <Button variant="primary" className="btn-exist" onClick={handleShow}>
+                <CheckIcon/>
             </Button>
+            :
+            <Button variant="primary" className="btn-express" onClick={handleShow}>
+            <BusinessCenterIcon/>
+        </Button>
+            */}
+           
+           <Button variant="primary" className="btn-express" onClick={handleShow}>
+            <BusinessCenterIcon/>
+        </Button>
 
-            <Modal show={show} onHide={handleClose} className="modal" centered>
+            <Modal show={show} onHide={handleClose} className="modal" centered="centered">
                 <Form autoComplete="off" noValidate="noValidate" onSubmit={handleform}>
                     <Modal.Header >
                         <Modal.Title className="modal-title">We have some question for you</Modal.Title>

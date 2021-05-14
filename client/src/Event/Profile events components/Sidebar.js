@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import {CardActions} from '@material-ui/core';
+import {CardActions, withTheme} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CheckIcon from '@material-ui/icons/Check';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -19,6 +19,11 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import TextField from '@material-ui/core/TextField';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import {useHistory} from 'react-router-dom';
+import Typography from "@material-ui/core/Typography";
+import {TextareaAutosize} from '@material-ui/core';
+import '../../css/event.css'
+import {Link} from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     card: {
         maxHeight: 92,
@@ -28,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     participated_card: {
         minHeight: 92,
         backgroundColor: '#64dd17',
-        marginBottom: 50
+        marginBottom: 10
     },
     pending_card: {
         backgroundColor: '#ff9800',
@@ -59,10 +64,41 @@ const useStyles = makeStyles((theme) => ({
         color: '#ffffff',
         verticalAlign: 'middle',
         display: 'inline-flex'
+    },
+    reason: {
+        width: 500
+    },
+    textarea:{
+        '&:focus':{
+            outline:'none',
+            outlineOffset:'none',
+            border:'none'
+        }
+    },
+    join_card:{
+        minHeight: 92,
+        backgroundColor: '#2196F3',
+        marginBottom: 50
+    },
+    event_ma:{
+        color: '#ffff',
+        verticalAlign: 'middle',
+        display: 'inline',
+        marginLeft: 80,
+        marginTop: 25,
+        fontSize: 20
+    },
+    link:{
+        textDecoration:'none',
+        color:'white',
+        '&:hover':{
+            color:'white',
+        }
     }
 }));
 
 export default function Participate(props) {
+    const history = useHistory();
     const {event_id} = props;
     const classes = useStyles();
     const [show, setShow] = useState(false);
@@ -74,12 +110,13 @@ export default function Participate(props) {
     );
 
     const id = useSelector((state) => state.reducer__login);
-    const verify = useSelector((state) => state.reducer__participants);
-    console.log(verify);
+   
     useEffect(() => {
         dispatch(action__get__my__particiption(id[0], event_id))
-    }, [id[0]]);
-
+    }, [event_id]);
+    const verify = useSelector((state) => state.reducer__participants);
+   
+   
     const participation = () => {
         id[0]
             ? (
@@ -93,7 +130,7 @@ export default function Participate(props) {
                     }
                 </div>
             )
-            : alert("andich")
+            : history.push("/signup");
     }
     const sendRequest = (e) => {
         e.preventDefault();
@@ -101,38 +138,73 @@ export default function Participate(props) {
         dispatch(action__post__participants(particip_req));
         handleClose();
     }
+    console.log(verify);
+    //console.log(verify[0].verified)
     return (
         <Grid item="item" xs={12} md={4}>
             {
                 verify[0]
                     ? (
-                            verify.approved === "approved"
-                            ? <Card className={classes.participated_card}>
-                                <Grid container="container" spacing={1}>
-                                    <div>
-                                        <CardActions>
-                                            <div className={classes.status}>
-                                                <CheckIcon/>
-                                                <span>Participated
-                                                </span>
-                                            </div>
-                                        </CardActions>
-                                    </div>
-                                </Grid>
-                            </Card>
-                            : <Card className={classes.pending_card}>
-                                <Grid container="container" spacing={1}>
-                                    <div>
-                                        <CardActions>
-                                            <div className={classes.status}>
-                                                <HourglassEmptyIcon/>
-                                                <span>Pending...
-                                                </span>
-                                            </div>
-                                        </CardActions>
-                                    </div>
-                                </Grid>
-                            </Card>
+                            verify[0].verified=== "false"
+                            ? <Card className={classes.pending_card}>
+                            <Grid container="container" spacing={1}>
+                                <div>
+                                    <CardActions>
+                                        <div className={classes.status}>
+                                            <HourglassEmptyIcon/>
+                                            <span>Pending...
+                                            </span>
+                                        </div>
+                                    </CardActions>
+                                </div>
+                            </Grid>
+                        </Card>
+                            :
+                            <div>                           
+                            <Card className={classes.participated_card}>
+                            <Grid container="container" spacing={1}>
+                                <div>
+                                    <CardActions>
+                                        <div className={classes.status}>
+                                            <CheckIcon/>
+                                            <span>Participated
+                                            </span>
+                                        </div>
+                                    </CardActions>
+                                </div>
+                            </Grid>
+                        </Card> 
+                        <Card className={classes.join_card}>
+                            <Grid container="container" spacing={1}>
+                                <div>
+                                    <CardActions>
+                                       
+                                        <div className={classes.event_ma}>
+                                        <Link to={`/eventmarketplace/${event_id}`} className={classes.link}>
+                                            Join Event Marketplace
+                                            </Link>
+                                        </div>
+                                       
+                                    </CardActions>
+                                </div>
+                            </Grid>
+                        </Card> 
+                        <Card className={classes.join_card}>
+                            <Grid container="container" spacing={1}>
+                                <div>
+                                    <CardActions>
+                                       
+                                        <div className={classes.event_ma}>
+                                        <Link to={`/participants/${event_id}`} className={classes.link}>
+                                            Check Event Participants
+                                            </Link>
+                                        </div>
+                                       
+                                    </CardActions>
+                                </div>
+                            </Grid>
+                        </Card> 
+                        </div>
 
                         )
                     : (
@@ -146,22 +218,20 @@ export default function Participate(props) {
                                 centered="centered">
 
                                 <Form autoComplete="off" noValidate="noValidate" onSubmit={sendRequest}>
-                                    <Modal.Header closeButton="closeButton">
-                                        <Modal.Title>Why you want to Participate in this event</Modal.Title>
-                                    </Modal.Header>
                                     <Modal.Body>
 
+                                        <Typography component="h1" align="center" variant="h5">
+                                            Why you want to Participate in this event
+                                        </Typography>
                                         <Form.Row>
-                                            <Form.Group as={Col} controlId="title">
-                                                <TextField
-                                                    className="typeI"
-                                                    id="title"
-                                                    label="Title"
-                                                    placeholder="convince me"
-                                                    onChange={(e) => setReq({
-                                                        ...particip_req,
-                                                        desc: e.target.value
-                                                    })}/>
+                                            <Form.Group as={Col} className={classes.parent} controlId="title">
+                                                <Form.Label>Reason</Form.Label>
+                                                <Form.Control as="textarea"
+                                                onChange={(e) => setReq({
+                                                    ...particip_req,
+                                                    desc: e.target.value
+                                                })}
+                                                className="textarea" rows={3}/>
                                             </Form.Group>
                                         </Form.Row>
 

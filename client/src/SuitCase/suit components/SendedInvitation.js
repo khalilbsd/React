@@ -4,7 +4,7 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 //componeent
-import Invitation from './Invitations';
+import Invit from './Inivi';
 import Empty from './Empty';
 /*test*/
 /*redux*/
@@ -44,7 +44,7 @@ const SendedInvitation = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(action__get__invitation__by__requester(id[0]));
-    }, [id[0]]);
+    }, []);
     const invi = useSelector((state) => state.reducer__invitations);
     return (
         <Grid container spacing={1} justify="center" className={classes.container}>
@@ -55,7 +55,7 @@ const SendedInvitation = () => {
              (
                 invi.map((req,key)=>
                 (req&&(req.offerer_id!=="admin"))?
-                 <Invitation invite={req} place="sent"/>
+                 <Invit invite={req} place="sent"/>
                  :  <LinearProgress color="secondary" className={classes.loading}/>
                 )
              )

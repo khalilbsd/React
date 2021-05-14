@@ -38,10 +38,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function MeetingCard({ account, meeting }) {
+export default function MeetingCard({ _id, account, meeting }) {
     let history = useHistory();
 
-    const _id = "608bc1978d887c2b004fbeb7";
     const dispatch = useDispatch();
     const classes = useStyles();
     const theme = useTheme();

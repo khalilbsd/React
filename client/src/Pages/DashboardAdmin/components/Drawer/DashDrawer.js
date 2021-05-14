@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { mainListItems } from './listItems';
+import MainListItems from './listItems';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
@@ -124,7 +124,7 @@ export default function DashDrawer() {
                         <MenuIcon />
                     </IconButton>
                 </div>
-                <List>{mainListItems}</List>
+                <List><MainListItems/></List>
             </Drawer>
         </div>
     );

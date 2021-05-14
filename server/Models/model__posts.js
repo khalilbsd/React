@@ -23,7 +23,12 @@ const schema__posts = mongoose.Schema({
         default: new Date()
     },
     description: String,
-
+    
+    verified_by_admin:{
+        type:String,
+        default:false,
+    },
+    industrial_field:String,
 });
 
 const model__posts = mongoose.model('posts', schema__posts);

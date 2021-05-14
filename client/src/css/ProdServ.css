@@ -17,7 +17,14 @@
     min-height: 30px;
 
 }
+.MuiCardHeader-title{
+    white-space: nowrap !important; 
+    width: 100%; 
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+    min-height: 30px;
 
+}
 
 
 /*update*/

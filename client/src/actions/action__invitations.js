@@ -1,4 +1,4 @@
-import { api__get__invitations, api__post__invitations, api__patch__invitations, api__delete__invitations, api__get__invitation__by__requester, api__get__invitation__by__offerer, api__get__post__invitation } from '../API/api__invitations.js';
+import { api__get__invitations, api__post__invitations, api__patch__invitations, api__delete__invitations, api__get__invitation__by__requester, api__get__invitation__by__offerer, api__get__post__invitation,api__verify__my__participation } from '../API/api__invitations.js';
 
 export const action__get__invitations = () => async (dispatch) => {
   try {
@@ -73,4 +73,13 @@ export const action__get__post__request__invitations = (id) => async (dispatch) 
     console.log(error);
   }
 
+}
+
+export const action__verify__my__invitation = (id, post) => async (dispatch) => {
+  try {
+    const { data } = await api__verify__my__participation(id, post);
+    dispatch({ type: 'VERIFY INVITE', payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
 }

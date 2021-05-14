@@ -4,9 +4,9 @@ const schema__participants = mongoose.Schema({
     account_id: String,
     event_id: String,
     desc: String,
-    verified_by_admin: {
-        type: String,
-        default: "false"
+    verified:{
+        type:String,
+        default:"false"
     },
 });
 

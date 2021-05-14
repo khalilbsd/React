@@ -65,3 +65,21 @@ export const delete__posts = async (req, res) => {
 }
 
 
+//post are differecnet from me and approved
+
+
+export const get__verified__posts = async (req, res) => {
+    const { id: account } = req.params;
+    const place="generalmarketplace";
+    const state="true";
+    try {
+        const posts = await model__posts.find({"verified_by_admin":state, "place_id":place, "account": { $ne: account } });
+        res
+            .status(200)
+            .json(posts);
+    } catch (error) {
+        res
+            .status(404)
+            .json({ message: error.message });
+    }
+}

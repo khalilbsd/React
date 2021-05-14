@@ -162,7 +162,8 @@ const ProdServ = ({post}) => {
         file: post.file,
         video: post.video,
         description: post.description,
-        state:post.state
+        state:post.state,
+        industrial_field:post.industrial_field,
     });
 
     const dispatch = useDispatch();
@@ -221,6 +222,29 @@ const ProdServ = ({post}) => {
                                                             <MenuItem value="Product">Product</MenuItem>
                                                             <MenuItem value="Service">Service</MenuItem>
 
+                                                        </Select>
+                                                    </FormControl>
+
+                                                </Form.Group>
+                                            </Form.Row>
+                                        </Grid>
+                                        <Grid item="item" xs={12} className={classes.left}>
+                                            <Form.Row>
+                                                <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
+
+                                                    <FormControl >
+                                                        <InputLabel id="select-type-label">Indistiral Fields</InputLabel>
+                                                        <Select
+                                                            className={classes.typeInput}
+                                                            labelId="select-type-label"
+                                                            id="demo-simple-select"
+                                                            onChange={(e) => setPostData({
+                                                                ...UpPost,
+                                                                industrial_field: e.target.value
+                                                            })}>
+                                                            <MenuItem value="Product">It</MenuItem>
+                                                            <MenuItem value="Service">math</MenuItem>
+                                                            <MenuItem value="Service">...</MenuItem>
                                                         </Select>
                                                     </FormControl>
 

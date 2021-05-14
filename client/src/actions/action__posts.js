@@ -1,4 +1,4 @@
-import {api__get__posts,api__post__posts,api__patch__posts,api__delete__posts,api__get__one__post,api__get__my__post} from '../API/api__posts.js';
+import {api__get__posts,api__post__posts,api__patch__posts,api__delete__posts,api__get__one__post,api__get__my__post,api__get__verified__posts} from '../API/api__posts.js';
 
 export const action__get__posts=()=> async(dispatch)=>{
    try {
@@ -59,4 +59,13 @@ export const action__delete__posts = (id) => async (dispatch) => {
     }
   };
 
+  export const action__get__verified__posts=(id)=> async(dispatch)=>{ 
+    try {
+        const {data}=await api__get__verified__posts(id);
+        dispatch({ type: 'FETCH VERIFIED', payload:data});
+    } catch (error) {
+        console.log(error);
+    }
+    
+ }
 

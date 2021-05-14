@@ -3,7 +3,7 @@ const reducer__accounts = (accounts = [], action) => {
         case 'FETCH ALL ACCOUNTS':
             return action.payload;
         case 'FETCH ONE ACCOUNTS':
-            return action.payload;
+            return action.payload
         case 'CREATE ACCOUNTS':
             return [
                 ...accounts,

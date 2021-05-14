@@ -58,11 +58,12 @@ export default function Header({ isAuth, role }) {
                         <Link to='/marketplace' className={classes.link}>
                             <Button color="inherit" className={classes.btn}>Marketplace</Button>
                         </Link>
-                        <Link to='/participants' className={classes.link}>
-                            <Button color="inherit" className={classes.btn}>Participants</Button>
-                        </Link>
+                        
                         <Link to='/suitcase' className={classes.link}>
                             <Button color="inherit" className={classes.btn}>Suitcase</Button>
+                        </Link>
+                        <Link to='/meetinginbox' className={classes.link}>
+                            <Button color="inherit" className={classes.btn}>Meeting Inbox</Button>
                         </Link>
                         <Menu />
                     </Toolbar>

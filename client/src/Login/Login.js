@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        //boxShadow: '0px 0px 20px black',
+        //boxShadow: '12px 0 15px -4px rgba(31, 73, 125, 0.8), -12px 0 8px -4px black,'
+
     },
     paper: {
         margin: theme.spacing(8, 4),

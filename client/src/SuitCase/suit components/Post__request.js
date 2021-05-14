@@ -40,7 +40,7 @@ const Post__request = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(action__get__post__request__invitations(id[0]));
-    }, [id[0]]);
+    }, []);
 
     const invi = useSelector((state) => state.reducer__invitations);
 console.log(invi);

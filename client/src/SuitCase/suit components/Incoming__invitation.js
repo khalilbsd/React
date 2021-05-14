@@ -28,8 +28,9 @@ const Incoming__invitation = () => {
     //invitations
     useEffect(() => {
         dispatch(action__get__invitation__by__offerer(id[0]));
-    }, [id[0]]);
+    }, []);
     const invi = useSelector((state) => state.reducer__invitations);
+   // console.log(invi);
     return (
         <Grid
             container="container"

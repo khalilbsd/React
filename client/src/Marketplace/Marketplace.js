@@ -6,37 +6,42 @@ import Filter from "./Marketplace components/Filter";
 import '../css/markplace.css';
 import Item from './Marketplace components/Item';
 import {useDispatch} from 'react-redux';
-import {action__get__posts} from '../actions/action__posts';
+import {action__get__verified__posts} from '../actions/action__posts';
 import {withRouter} from "react-router-dom";
 import Waiting_Card from './Marketplace components/waiting card'
+import {action__get__one__account} from '../actions/action__accounts';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 5,
         //paddingLeft:"10px",
     },
-    paper: {
-        textAlign: 'center'
+    loadingCircle:{
+        color:'#2196F3',
     }
 }));
 function Marketplace() {
+    const classes = useStyles();
     const dispatch = useDispatch();
-
+    const id = useSelector((state) => state.reducer__login)
     /*geting info form database */
 
     useEffect(() => {
-        dispatch(action__get__posts());
+        dispatch(action__get__verified__posts(id[0]));
     }, [dispatch]);
-
-    const classes = useStyles();
     const store__posts = useSelector((state) => state.reducer__posts);
+
+   
+
+    
     console.log(store__posts);
 
     return (
         !store__posts
-            ? <CircularProgress/>
-            : (
+            ? <Waiting_Card />
+            : ( 
                 !store__posts[0]?
-                <Waiting_Card />
+                <CircularProgress className={classes.loadingCircle}/>
                 :<Grid
                     container="container"
                     className={classes.root}
@@ -59,16 +64,14 @@ function Marketplace() {
                             <Grid container="container" spacing={2}>
                                 {
                                     store__posts.map((post, key) => (
-                                        <Grid key={post._id} item="item" xs={12} sm={12} md={6} lg={4} xl={3}>
-                                            {
                                                 !post
                                                     ? <LinearProgress/>
-                                                    : <Item post={post}/>
-                                            }
-
-                                        </Grid>
+                                                    : 
+                                                    <Grid key={post._id} item="item" xs={12} sm={12} md={6} lg={4} xl={3}>
+                                                    <Item idi={key} post={post}/>
+                                                    </Grid>
                                     ))
-                                }
+                                     }
                             </Grid>
                         </Grid>
 

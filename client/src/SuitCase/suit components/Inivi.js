@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
-const Invitation = ({invite, place}) => {
+const Invit = ({invite, place}) => {
     //const confirm = useConfirm();
     //console.log(invite)
     const classes = useStyles();
@@ -277,4 +277,4 @@ const Invitation = ({invite, place}) => {
     );
 }
 
-export default Invitation;
+export default Invit;

@@ -90,3 +90,18 @@ export const get__invitations__of__posts__request = async (req, res) => {
     }
 
 }
+
+export const verify__invitation = async (req, res) => {
+    const { id: requester_id } = req.params;
+    const { post: post_id } = req.params;
+    try {
+        const participants = await model__invitations.find({ "requester_id": requester_id, "post_id": post_id });
+        res
+            .status(200)
+            .json(participants);
+    } catch (error) {
+        res
+            .status(404)
+            .json({ message: error.message });
+    }
+}

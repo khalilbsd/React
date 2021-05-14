@@ -5,7 +5,9 @@ const reducer__invitations = (invitations = [], action) => {
         case 'FETCH REQUESTER INVITATION':
             return action.payload;
         case 'FETCH OFFERER INVITATION':
-            return action.payload;
+            return invitations,action.payload;
+            case 'VERIFY INVITE':
+                return action.payload;  
         case 'FETCH POST INVITATION':
             return action.payload;
         case 'CREATE INVITATION':

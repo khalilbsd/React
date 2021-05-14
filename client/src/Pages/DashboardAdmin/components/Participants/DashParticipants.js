@@ -17,6 +17,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -82,12 +83,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-    },
+   
     fixedHeight: {
         height: 240,
     },
@@ -137,10 +133,8 @@ export default function Dashboard() {
                             store__participants.map((participant, key) => (
                                 store__accounts.map((account, key) => (
                                     account._id == participant.account_id ? (
-                                        <Grid item xs={12}>
-                                            <Paper className={classes.paper}>
+                                        <Grid item xs={12}>                                      
                                                 <ParticipantCard account={account} participant={participant} />
-                                            </Paper>
                                         </Grid>
                                     ) : (
                                         null

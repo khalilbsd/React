@@ -9,3 +9,10 @@
 .modal{
     width: 90% !important;
 }
+
+
+.textarea:focus{
+    outline: 0 !important;
+    border: none;
+    outline-offset: 0 !important;
+}

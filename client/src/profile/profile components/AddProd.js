@@ -24,6 +24,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 //redux
 import {useSelector} from 'react-redux';
+import { useEffect } from 'react';
+import { action__get__participants } from '../../actions/action__participants';
+import { action__get__events } from '../../actions/action__events';
 const useStyles = makeStyles((theme) => ({
     modal: {
         marginLeft: '5%'
@@ -86,7 +89,7 @@ left:{
  },
 
  typeInput:{
-     width:'520%',
+     width:500,
      textAlign:'center',
 
  },
@@ -112,6 +115,9 @@ marginBottom:'5%'
 tit:{
     marginTop:'2%',
     marginBottom:'2%',
+},
+indust:{
+    width:500
 }
 
 }));
@@ -128,12 +134,26 @@ function AddProd({style}) {
         video: '',
         description: '',
         state: '',
+        industrial_field:'it',
         account: id[0]
     });
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        dispatch(action__get__participants());
+    }, [dispatch]);
+    const store__participants = useSelector((state) => state.reducer__participants);
+    useEffect(() => {
+        dispatch(action__get__events());
+    }, [dispatch]);
+    const store__events = useSelector((state) => state.reducer__events);
+
+
+
     const handleform = (e) => {
         e.preventDefault();
         dispatch(action__post__posts(prodData));
@@ -173,6 +193,43 @@ function AddProd({style}) {
                     <Modal.Body>
                         <Grid container="container" spacing={3}>
                             <Grid container="container" xs={6} >
+                            <Grid item="item" xs={12} className={classes.left}>
+                                    <Form.Row>
+                                        <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
+                                            <FormControl >
+                                                <InputLabel id="select-type-label">Marketplace</InputLabel>
+                                                <Select
+                                                    className={classes.typeInput}
+                                                    labelId="select-type-label"
+                                                    id="demo-simple-select"
+                                                    onChange={(e) => setPostData({
+                                                        ...prodData,
+                                                        place_id: e.target.value
+                                                    })}>
+                                                    <MenuItem value="generalmarketplace">General Marketplace</MenuItem>
+                                                    {
+                                                        store__participants.map((participant, key) => (
+                                                            participant.account_id == id[0]
+                                                                ? (
+                                                                    store__events.map((event, key2) => (
+                                                                        event._id == participant.event_id
+                                                                            ? (<MenuItem value={event._id}>{event.title}</MenuItem>)
+                                                                            : (null)
+                                                                    )
+                                                                    )
+                                                                ) : (null)
+                                                        ))
+                                                    }
+
+                                                </Select>
+                                            </FormControl>
+
+                                        </Form.Group>
+                                    </Form.Row>
+                                </Grid>
+
+
+
                                 <Grid item="item" xs={12} className={classes.left}>
                                     <Form.Row>
                                         <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
@@ -196,6 +253,29 @@ function AddProd({style}) {
                                         </Form.Group>
                                     </Form.Row>
                                 </Grid>
+                                <Grid item="item" xs={12} className={classes.left}>
+                                            <Form.Row>
+                                                <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
+
+                                                    <FormControl >
+                                                        <InputLabel id="select-type-label">Industrial Field</InputLabel>
+                                                        <Select
+                                                            className={classes.indust}
+                                                            labelId="select-type-label"
+                                                            id="demo-simple-select"
+                                                            onChange={(e) => setPostData({
+                                                                ...prodData,
+                                                                industrial_field: e.target.value
+                                                            })}>
+                                                            <MenuItem value="Product">It</MenuItem>
+                                                            <MenuItem value="Service">math</MenuItem>
+                                                            <MenuItem value="Service">...</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+
+                                                </Form.Group>
+                                            </Form.Row>
+                                        </Grid>
                                 <Grid item="item" xs={12} className={classes.left}>
                                     <Form.Group>
                                         <InputLabel id="select-image-label" className={classes.tit}>Upload a Image</InputLabel>

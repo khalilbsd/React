@@ -115,6 +115,7 @@ const Suit = () => {
                     : 'x'}
                 index={value}
                 onChangeIndex={handleChangeIndex}>
+                  
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Incoming__invitation/>
                 </TabPanel>

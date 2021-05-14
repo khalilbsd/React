@@ -8,7 +8,8 @@ const schema__invitations=mongoose.Schema({
     },
     post_id: String,
     offerer_id: String,
-    requester_id: String
+    requester_id: String,
+    description:String,
 });
 
 const model__invitations=mongoose.model('invitations',schema__invitations) ;

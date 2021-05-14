@@ -2,6 +2,8 @@ const reducer__posts = (posts = [], action) => {
     switch (action.type) {
         case 'FETCH ALL POST':
             return action.payload;
+            case 'FETCH VERIFIED':
+                return action.payload;
         case 'FETCH MY POSTS':
             return action.payload; //posts.map((post)=>post.account === action.payload._id?action.payload:posts);
         case 'FETCH ONE POST':
