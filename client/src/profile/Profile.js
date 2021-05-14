@@ -107,7 +107,6 @@ function Profile() {
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     <Tab2/>
                 </TabPanel>
-
             </SwipeableViews>
         </div>
 

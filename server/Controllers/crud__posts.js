@@ -83,3 +83,4 @@ export const get__verified__posts = async (req, res) => {
             .json({ message: error.message });
     }
 }
+

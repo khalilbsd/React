@@ -41,7 +41,7 @@ left:{
  btn_add:{
      backgroundColor:'green',
      paddingLeft:'45%',
-     paddingRight:'52%',
+     paddingRight:'50%',
      textAlign:'center',
      outline:'none',
      border:'none',

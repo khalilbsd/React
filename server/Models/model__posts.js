@@ -13,17 +13,11 @@ const schema__posts = mongoose.Schema({
     video: String,
     desc: String,
     state: String,
-    tag: {
-        type: String,
-        default: "pending",
-        required: true
-    },
     date_time: {
         type: Date,
         default: new Date()
     },
     description: String,
-    
     verified_by_admin:{
         type:String,
         default:false,

@@ -12,6 +12,10 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import InfoIcon from '@material-ui/icons/Info';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex"
@@ -38,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function MeetingCard({ _id, account, meeting }) {
+export default function MeetingCard({ _id, account, meeting, event }) {
     let history = useHistory();
 
     const dispatch = useDispatch();
@@ -52,9 +56,7 @@ export default function MeetingCard({ _id, account, meeting }) {
 
     const [meetingId, setMeetingId] = useState("");
 
-    const [updatedMeeting, setUpdatedMeeting] = useState(
-        { state: "" }
-    );
+    const [updatedMeeting, setUpdatedMeeting] = useState({ state: "" });
 
     useEffect(() => {
         if (updatedMeeting.state && meetingId) {
@@ -76,92 +78,108 @@ export default function MeetingCard({ _id, account, meeting }) {
                     <Typography component="h5" variant="h5">
                         {account.organization.name}
                     </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
+                    <Typography component="h6" variant="h6">
                         {account.organization.representative.first_name + " " + account.organization.representative.last_name}
                     </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                        <LocationOnIcon />
+                        {event.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                        <QueryBuilderIcon />
+                        {meeting.time}
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                        <InfoIcon />
+                        {meeting.description}
+                    </Typography>
                 </CardContent>
-                <div className={classes.controls}></div>
-                {
-                    meeting.party_one_id === _id ? (
-                        //sent meeting requests
-                        meeting.state === "pending" ? (
-                            //if sent meeting request is pending you can cancel
-                            <div>
-                                <Button variant="contained" color="primary"
-                                    onClick={() => {
-                                        setUpdatedMeeting({
-                                            ...updatedMeeting,
-                                            state: "canceled"
-                                        });
-                                        setMeetingId(meeting._id);
-                                    }}>Cancel Meeting</Button>
-                                <br />
-                            </div>
-                        ) : (
-
-                            meeting.state == "canceled" ? (
-                                //if you canceled your meeting request
-                                <p>Sent meeting request canceled</p>
-                            ) : (
-                                //if meeting request was accepted/denied
-                                meeting.state === "accepted" ? (
-                                    //if sent meeting request was accepted you can join meeting
-                                    <div>
-                                        <Button variant="contained" color="primary"
+                <div className={classes.controls}>
+                    {
+                        meeting.party_one_id === _id
+                            ? (
+                                meeting.state === "pending"
+                                    ? (
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
                                             onClick={() => {
-                                                window.location.href = `http://localhost:3001/${meeting.location}`;
-                                            }}>Join Meeting</Button>
-                                        <br />
-                                    </div>
-                                ) : (
-                                    //if sent meeting request was denied you can cry
-                                    <p>Sent meeting request denied</p>
-                                )
-                                //done
+                                                setUpdatedMeeting({
+                                                    ...updatedMeeting,
+                                                    state: "canceled"
+                                                });
+                                                setMeetingId(meeting._id);
+                                            }}>Cancel</Button>
+                                    )
+                                    : (
+                                        meeting.state == "canceled"
+                                            ? (<p>Sent meeting request canceled</p>)
+                                            : (
+                                                meeting.state === "accepted"
+                                                    ? (
+                                                        <div>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="primary"
+                                                                onClick={() => {
+                                                                    window.location.href = `http://localhost:3001/${meeting.location}`;
+                                                                }}>Join Meeting</Button>
+                                                            <br />
+                                                        </div>
+                                                    )
+                                                    : (<p>Sent meeting request denied</p>)
+                                            )
+                                    )
                             )
-                        )) : (
-                        //received meeting requests
-                        meeting.state === "pending" ? (
-                            //you can accept/deny the received meeting request
-                            < div >
-                                <Button variant="contained" color="primary"
-                                    onClick={() => {
-                                        setUpdatedMeeting({
-                                            ...updatedMeeting,
-                                            state: "accepted",
-                                            location: uuidv4()
-                                        });
-                                        setMeetingId(meeting._id);
-                                    }}>Accept Meeting</Button>
-                                <Button variant="contained" color="primary"
-                                    onClick={() => {
-                                        setUpdatedMeeting({
-                                            ...updatedMeeting,
-                                            state: "denied"
-                                        });
-                                        setMeetingId(meeting._id);
-                                    }}>Deny Meeting</Button>
-                                <br />
-                            </div>
-                        ) : (
-                            //if you accepted or denied the meeting request
-                            meeting.state === "accepted" ? (
-                                //you accepted the meeting request good job
-                                <div>
-                                    <Button variant="contained" color="primary"
-                                        onClick={() => {
-                                            window.location.href = `http://localhost:3001/${meeting.location}`;
-                                        }}>Join Meeting</Button>
-                                    <br />
-                                </div>
-                            ) : (
-                                //you have denied the meeting request boohoo
-                                <p>Received meeting request denied</p>
-                            )
-                        )
-                    )
+                            : (null)
 
-                }
+                    }
+                    {
+                        meeting.party_two_id === _id
+                            ? (
+                                meeting.state === "pending"
+                                    ? (
+                                        < div > <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => {
+                                                setUpdatedMeeting({
+                                                    ...updatedMeeting,
+                                                    state: "accepted",
+                                                    location: uuidv4()
+                                                });
+                                                setMeetingId(meeting._id);
+                                            }}>Accept</Button>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={() => {
+                                                    setUpdatedMeeting({
+                                                        ...updatedMeeting,
+                                                        state: "denied"
+                                                    });
+                                                    setMeetingId(meeting._id);
+                                                }}>Deny</Button>
+                                            <br />
+                                        </div>
+                                    )
+                                    : (
+                                        meeting.state === "accepted"
+                                            ? (
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={() => {
+                                                        window.location.href = `http://localhost:3001/${meeting.location}`;
+                                                    }}>Join Meeting</Button>
+                                            )
+                                            : (<p>Received meeting request denied</p>)
+                                    )
+                            )
+                            : (null)
+
+                    }
+                </div>
             </div>
         </Card >
     );

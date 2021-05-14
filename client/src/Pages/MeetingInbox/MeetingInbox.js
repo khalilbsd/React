@@ -1,111 +1,112 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import MeetingCard from './components/MeetingCard.js';
-import { action__get__meetings } from '../../actions/action__meetings';
-import { action__get__accounts } from '../../actions/action__accounts';
+import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { Fullscreen } from '@material-ui/icons';
+import { withRouter } from "react-router-dom";
+import '../../css/suit.css';
+import SentMeetingRequests from "./components/SentMeetingRequests.js";
+import ReceivedMeetingRequests from "./components/ReceivedMeetingRequests.js";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    toolbar: {
-        paddingRight: 24,
-    },
-    toolbarIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    appBar: {
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    menuButton: {
-        marginRight: 36,
-    },
-    menuButtonHidden: {
-        display: 'none',
-    },
-    title: {
-        flexGrow: 1,
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-    },
-    container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-    },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-    },
-    fixedHeight: {
-        height: 240,
-    },
-}));
-
-export default function MeetingInbox() {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-    useEffect(() => {
-        dispatch(action__get__meetings());
-    }, [dispatch]);
-
-    const store__meetings = useSelector((state) => state.reducer__meetings);
-
-    useEffect(() => {
-        dispatch(action__get__accounts());
-    }, [dispatch]);
-
-    const store__accounts = useSelector((state) => state.reducer__accounts);
-    console.log(store__accounts);
+function TabPanel(props) {
+    const {
+        children,
+        value,
+        index,
+        ...other
+    } = props;
 
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        {
-                            store__meetings.map((meeting, key) => (
-                                store__accounts.map((account, key) => (
-                                    account._id == meeting.party_two_id ? (
-                                        <Grid item xs={12}>
-                                            <Paper className={classes.paper}>
-                                                <MeetingCard account={account} meeting={meeting} />
-                                            </Paper>
-                                        </Grid>
-                                    ) : (
-                                        null
-                                    )
-                                )
-                                )))
-                        }
-                    </Grid>
-                </Container>
-            </main>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`full-width-tabpanel-${index}`}
+            aria-labelledby={`full-width-tab-${index}`}
+            {...other}>
+            {
+                value === index && (
+                    <Box p={3}>
+                        <Typography>{children}</Typography>
+                    </Box>
+                )
+            }
         </div>
     );
 }
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired
+};
+
+function a11yProps(index) {
+    return { id: `full-width-tab-${index}`, 'aria-controls': `full-width-tabpanel-${index}` };
+}
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: Fullscreen,
+        marginTop: 40,
+    },
+    tabs: {
+        color: 'black',
+    }
+}));
+
+const MeetingInbox = ({ _id }) => {
+    const classes = useStyles();
+    const theme = useTheme();
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    };
+
+    return (
+        <div className={classes.root}>
+            <AppBar
+                position="static"
+                style={{
+                    background: 'transparent',
+                    boxShadow: 'none'
+                }}>
+                <Tabs
+                    className={classes.tabs}
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    textColor="white"
+                    variant="full Width"
+                    centered="centered">
+                    <Tab label="Sent Meeting Requests " {...a11yProps(0)} />
+                    <Tab label="Received Meeting Requests" {...a11yProps(1)} />
+                </Tabs>
+            </AppBar>
+            <SwipeableViews
+                axis={theme.direction === 'rtl'
+                    ? 'x-reverse'
+                    : 'x'}
+                index={value}
+                onChangeIndex={handleChangeIndex}>
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                    <SentMeetingRequests _id={_id} />
+                </TabPanel>
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                    <ReceivedMeetingRequests _id={_id} />
+                </TabPanel>
+            </SwipeableViews>
+        </div>
+    );
+}
+
+export default withRouter(MeetingInbox);

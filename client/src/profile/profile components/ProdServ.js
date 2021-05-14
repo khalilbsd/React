@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center'
     },
     status_pending: {
-        marginTop:'7%',
+        marginTop: '7%',
         backgroundColor: 'orange',
         width: '70%',
         color: 'white',
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 100
     },
     status_accept: {
-        marginTop:'7%',
+        marginTop: '7%',
         backgroundColor: 'green',
         width: '70%',
         color: 'white',
@@ -72,84 +72,82 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 100
     },
     status_denied: {
-        marginTop:'7%',
+        marginTop: '7%',
         backgroundColor: 'red',
         width: '70%',
         color: 'white',
         textAlign: 'center',
         borderRadius: 100
     },
-    delete:{
-       marginLeft:'30%'
+    delete: {
+        marginLeft: '30%'
     },
-    time:{
-        marginTop:'2%',
+    time: {
+        marginTop: '2%'
     },
-    edit:{
+    edit: {
         position: 'absolute',
         color: 'black',
         float: 'right',
-        marginLeft: '85%',
+        marginLeft: '85%'
     },
-    //modal 
+    //modal
     modal: {
         marginLeft: '5%'
     },
-    modal_title:{
-        display:'flex',
-        justifyContent:'center',
- },
-left:{
-   marginLeft:'5%'
-},
- 
- add_main:{
-     fontSize:'100px',
- },
- add_frm:{
-     marginBottom:'3%',
-     textAlign:'left',
- },
- btn_mod_add:{
-     color:'white',
-     backgroundColor:'#2699fb',
-     border:'none',
-     width:'30%',
-     '&:hover':{
-        color:'white',
-        backgroundColor:'#68A5CF',
+    modal_title: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    left: {
+        marginLeft: '5%'
     },
 
- },
+    add_main: {
+        fontSize: '100px'
+    },
+    add_frm: {
+        marginBottom: '3%',
+        textAlign: 'left'
+    },
+    btn_mod_add: {
+        color: 'white',
+        backgroundColor: '#2699fb',
+        border: 'none',
+        width: '30%',
+        '&:hover': {
+            color: 'white',
+            backgroundColor: '#68A5CF'
+        }
+    },
 
- typeInput:{
-     width:'520%',
-     textAlign:'center',
+    typeInput: {
+        width: '520%',
+        textAlign: 'center'
+    },
 
- },
+    add_frm_title: {
+        marginBottom: '2%',
+        width: '70%'
+    },
 
- add_frm_title:{
-     marginBottom:'2%',
-     width:'70%',
- },
+    add_frm_video: {
+        marginBottom: '9%',
+        width: '70%'
+    },
 
- add_frm_video:{
-    marginBottom:'9%',
-    width:'70%',
-},
+    add_frm_state: {
+        marginBottom: '2%'
+    },
+    add_frm_image: {
+        marginTop: '5%',
+        marginBottom: '5%'
+    },
 
-add_frm_state:{
-    marginBottom:'2%'
-},
-add_frm_image:{
-marginTop:'5%',
-marginBottom:'5%'
-},
-
-tit:{
-    marginTop:'2%',
-    marginBottom:'2%',
-}
+    tit: {
+        marginTop: '2%',
+        marginBottom: '2%'
+    }
 
 }));
 const ProdServ = ({post}) => {
@@ -162,8 +160,8 @@ const ProdServ = ({post}) => {
         file: post.file,
         video: post.video,
         description: post.description,
-        state:post.state,
-        industrial_field:post.industrial_field,
+        state: post.state,
+        industrial_field: post.industrial_field
     });
 
     const dispatch = useDispatch();
@@ -208,7 +206,6 @@ const ProdServ = ({post}) => {
                                         <Grid item="item" xs={12} className={classes.left}>
                                             <Form.Row>
                                                 <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
-
                                                     <FormControl >
                                                         <InputLabel id="select-type-label">Type</InputLabel>
                                                         <Select
@@ -247,7 +244,6 @@ const ProdServ = ({post}) => {
                                                             <MenuItem value="Service">...</MenuItem>
                                                         </Select>
                                                     </FormControl>
-
                                                 </Form.Group>
                                             </Form.Row>
                                         </Grid>
@@ -281,7 +277,6 @@ const ProdServ = ({post}) => {
 
                                             </Form.Group>
                                         </Grid>
-
                                     </Grid>
                                     <Grid container="container" xs={6}>
                                         <Grid item="item" xs={12}>
@@ -296,7 +291,6 @@ const ProdServ = ({post}) => {
                                                             ...UpPost,
                                                             title: e.target.value
                                                         })}/>
-
                                                 </Form.Group>
                                             </Form.Row>
                                         </Grid>
@@ -387,36 +381,39 @@ const ProdServ = ({post}) => {
                                 className="description">
                                 {post.description}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary" className={classes.time} component="p">
-                                Created {moment(post.date_time).fromNow()} ago
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                className={classes.time}
+                                component="p">
+                                Created {moment(post.date_time).fromNow()}
+                               
                             </Typography>
-                            
-                          
+
                         </CardContent>
                     </Link>
                 </CardActionArea>
 
                 <CardActions>
-                <Grid container="container" spacing={3}>
-                                <Grid item="item" xs={8}>
-                                <Typography variant="body2" color="textSecondary" component="p" className="tag">
+                    <Grid container="container" spacing={3}>
+                        <Grid item="item" xs={8}>
+                            <Typography variant="body2" color="textSecondary" component="p" className="tag">
                                 {
-                                    post.tag === "pending"
-                                        ? (<div class={classes.status_pending}>{post.tag}</div>)
-                                        : post.tag === "accepted"
-                                            ? (<div class={classes.status_accept}>{post.tag}</div>)
-                                            : (<div class={classes.status_denied}>{post.tag}</div>)
+                                    post.verified_by_admin === "false"
+                                        ? (<div class={classes.status_pending}>Pending</div>)
+                                        : (<div class={classes.status_accept}> Approved</div>)
+
                                 }
                             </Typography>
-                                </Grid>
-                                <Grid item="item" xs={4}>
-                                <IconButton aria-label="settings" className={classes.delete} onClick={DelPost}>
-                                <DeleteForeverIcon />
-                    </IconButton>
-                              
-                                </Grid>
-                            </Grid>
-                   
+                        </Grid>
+                        <Grid item="item" xs={4}>
+                            <IconButton aria-label="settings" className={classes.delete} onClick={DelPost}>
+                                <DeleteForeverIcon/>
+                            </IconButton>
+
+                        </Grid>
+                    </Grid>
+
                 </CardActions>
             </Card>
 

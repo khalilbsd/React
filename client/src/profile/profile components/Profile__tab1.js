@@ -95,7 +95,6 @@ function Profile__tab1() {
                         }
                     </Grid>
                 </Grid>
-
             </Grid>
 
         </div>

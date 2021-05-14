@@ -1,44 +1,37 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography,Grid,Card } from '@material-ui/core';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import TreeView from "@material-ui/lab/TreeView";
+import TreeItem from "@material-ui/lab/TreeItem";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import Search from "./Search";
-import Parameter from "./Parameter";
+const useStyles = makeStyles({
+    root: {
+        height: 240,
+        flexGrow: 1,
+        maxWidth: 400
+    }
+});
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: "#e4f7f8",
-    paddingLeft:"10px",
-    paddingRight:"10px",
-    paddingTop:"10px",
-    paddingBottom:"10px",
-  },
-}));
-
-export default function Filter() {
-  const classes = useStyles();
-
-  return (
-    <Card className={classes.root}>
-      {/*Filter*/}
-      <Grid container spacing={3}>
-          {/*Title*/}
-          <Grid item xs={12}>
-            <Typography variant="h3">
-                Filter
-            </Typography>
-            </Grid>
-        {/*Search*/}
-        <Grid item xs={12}>
-            <Search />
-        </Grid>
-        {/*Parameter*/}
-        <Grid item xs={12}>
-            <Parameter />
-        </Grid>
-      </Grid>
-    </Card>
-  );
+export default function Filter({ setSearchData }) {
+    const classes = useStyles();
+    return (
+        <div>
+            <TreeView
+                className={classes.root}
+                defaultCollapseIcon={<ExpandMoreIcon />}
+                defaultExpandIcon={<ChevronRightIcon />}
+                onNodeSelect={(event, value) => setSearchData(value)}
+            >
+                <TreeItem nodeId="type" label="Type">
+                    <TreeItem nodeId="product" label="Product" />
+                    <TreeItem nodeId="service" label="Service" />
+                </TreeItem>
+                <TreeItem nodeId="state" label="State">
+                    <TreeItem nodeId="offer" label="Offer" />
+                    <TreeItem nodeId="request" label="Request" />
+                </TreeItem>
+            </TreeView>
+        </div>
+    );
 }
