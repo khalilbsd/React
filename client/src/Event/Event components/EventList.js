@@ -93,14 +93,14 @@ const EventList = ({event}) => {
                                             color="textSecondary"
                                             className={classes.time}
                                             component="p">
-                                            &nbsp; Started at: {dateFormat(event.start_date, "mmm ds ,yyyy")}
+                                            &nbsp; Started at: {dateFormat(event.start_date, "mmm dd ,yyyy")}
                                         </Typography>
                                         <Typography
                                             variant="body2"
                                             color="textSecondary"
                                             className={classes.time}
                                             component="p">
-                                            &nbsp; until: {dateFormat(event.end_date, "mmm ds ,yyyy")}
+                                            &nbsp; until: {dateFormat(event.end_date, "mmm dd ,yyyy")}
                                         </Typography>
                                     </CardActions>
                                 </div>
