@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
@@ -11,8 +11,21 @@ import {Fullscreen} from '@material-ui/icons';
 import Tab1 from './profile components/Profile__tab1';
 import Tab2 from './profile components/Profile__tab2';
 import {withRouter} from "react-router-dom";
-
-
+import Grid from '@material-ui/core/Grid';
+import {CircularProgress} from '@material-ui/core';
+import PicInfo from './profile components/PicInfo';
+import AddProd from './profile components/AddProd.js';
+import ProfAction from './profile components/ProfAction';
+import Container from '@material-ui/core/Container';
+//componenet 
+import Representative from './profile components/Representative';
+//redux
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {action__get__one__account} from '../actions/action__accounts';
+//icon
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 function TabPanel(props) {
     const {
         children,
@@ -51,14 +64,15 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        color: '#000000',
-        width: Fullscreen,
         marginTop: 40
     },
-    tabs:{
-      fontSize: '1rem',
-    letterSpacing: '0.02rem',
-    color:'black',
+    tabs: {
+        fontSize: '1rem',
+        letterSpacing: '0.02rem',
+        color: 'black',
+    },
+    icon: {
+        color: "#2196F3"
     }
 }));
 
@@ -74,42 +88,94 @@ function Profile() {
     const handleChangeIndex = (index) => {
         setValue(index);
     };
+    const dispatch = useDispatch();
+
+    const id = useSelector((state) => state.reducer__login)
+
+    useEffect(() => {
+        dispatch(action__get__one__account(id[0]));
+    }, []);
+
+    const account = useSelector((state) => state.reducer__accounts);
 
     const prof = (
-        <div className={classes.root}>
-            <AppBar
-                position="static"
-                style={{
-                    background: 'transparent',
-                    boxShadow: 'none'
-                }}>
-                <Tabs
-                className={classes.tabs}
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example">
-                    <Tab label="My profile" className={classes.TabPanel} {...a11yProps(0)}/>
-                    <Tab label="My Events" {...a11yProps(1)}/>
+        <Container maxWidth="lg" className={classes.container}>
+            <div className={classes.root}>
+                <Grid container="container" spacing={3}>
+                    <Grid item="item" xs={4}>
+                        {
+                            !account
+                                ? <CircularProgress className="loading"/>
+                                : !account.organization
+                                    ? <CircularProgress className="loading"/>
+                                    : <PicInfo account={account}/>
 
-                </Tabs>
-            </AppBar>
-            <SwipeableViews
-                axis={theme.direction === 'rtl'
-                    ? 'x-reverse'
-                    : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}>
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <Tab1/>
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    <Tab2/>
-                </TabPanel>
-            </SwipeableViews>
-        </div>
+                        }
+                        < AddProd id={id[0]}/>
+                    </Grid>
+                    <Grid container="container" direction="row" xs={8}>
+                        <Grid item="item" xs={12}>
 
+                            {
+                                !account
+                                    ? <CircularProgress className="loading"/>
+                                    : !account.organization
+                                        ? <CircularProgress/>
+                                        : <Representative info={account}/>
+                            }
+
+                        </Grid>
+                        <Grid item="item" xs={12}>
+
+                            {
+                                !account
+                                    ? <CircularProgress className="loading"/>
+                                    : !account.organization
+                                        ? <CircularProgress/>
+                                        : <ProfAction info={account}/>
+                            }
+
+                        </Grid>
+
+                        <Grid container="container" xs={12} >
+                            <AppBar
+                                position="static"
+                                style={{
+                                    background: 'white',
+                                    borderRadius: 5,
+                                    marginTop: 20
+                                }}>
+                                <Tabs
+                                    className={classes.tabs}
+                                    value={value}
+                                    onChange={handleChange}
+                                    indicatorColor="primary"
+                                    variant="fullWidth">
+                                    <Tab
+                                        icon={<AssignmentIndIcon className = {
+                                            classes.icon
+                                        } />}
+                                        className={classes.TabPanel}
+                                        {...a11yProps(0)}/>
+                                    <Tab
+                                        icon={<EventAvailableIcon className = {
+                                            classes.icon
+                                        } />}
+                                        {...a11yProps(1)}/>
+                                </Tabs>
+                            </AppBar>
+                            <TabPanel style={{width:'100%'}} value={value} index={0} dir={theme.direction}>
+                                <Tab1/>
+                            </TabPanel>
+                            <TabPanel  style={{width:'100%'}}  value={value} index={1} dir={theme.direction}>
+                                <Tab2/>
+                            </TabPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </div>
+        </Container>
     );
     return prof;
 }

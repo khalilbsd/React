@@ -10,7 +10,7 @@ export const get__events = async (req, res) => {
     }
 }
 
-
+/*
 export const get__my__event = async (req, res) => {
     const { id: account_id } = req.params;
     try {
@@ -24,7 +24,7 @@ export const get__my__event = async (req, res) => {
             .json({ message: error.message });
     }
 }
-
+*/
 
 export const get__one__event = async (req, res) => {
     const { id: _id } = req.params;

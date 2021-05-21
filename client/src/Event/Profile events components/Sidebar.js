@@ -29,11 +29,14 @@ const useStyles = makeStyles((theme) => ({
         maxHeight: 92,
         marginBottom: 50,
         backgroundColor: '#2196F3'
+
     },
     participated_card: {
+      
         minHeight: 92,
         backgroundColor: '#64dd17',
-        marginBottom: 10
+        marginBottom: 10,
+        
     },
     pending_card: {
         backgroundColor: '#ff9800',
@@ -114,9 +117,7 @@ export default function Participate(props) {
     useEffect(() => {
         dispatch(action__get__my__particiption(id[0], event_id))
     }, [event_id]);
-    const verify = useSelector((state) => state.reducer__participants);
-   
-   
+    const verify = useSelector((state) => state.reducer__participants);   
     const participation = () => {
         id[0]
             ? (
@@ -138,11 +139,8 @@ export default function Participate(props) {
         dispatch(action__post__participants(particip_req));
         handleClose();
     }
-    console.log(verify);
-    //console.log(verify[0].verified)
     return (
-        <Grid item="item" xs={12} md={4}>
-            {
+       
                 verify[0]
                     ? (
                             verify[0].verified=== "false"
@@ -268,9 +266,9 @@ export default function Participate(props) {
                             </Card>
                         </div>
                     )
-            }
+            
 
-        </Grid>
+      
 
     );
 }

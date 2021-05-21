@@ -22,6 +22,7 @@ const schema__posts = mongoose.Schema({
         type:String,
         default:false,
     },
+    
     industrial_field:String,
 });
 

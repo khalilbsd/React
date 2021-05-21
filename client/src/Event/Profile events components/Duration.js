@@ -48,7 +48,6 @@ export default function Duration(props) {
     const {event} = props;
     const end = dateFormat(event.end_date, "dd/mm/yyyy");
     const start = dateFormat(event.start_date, "dd/mm/yyyy");
-    console.log(event);
     return (
         <Grid item="item" xs={12} md={6}>
             <Card className={classes.card}>

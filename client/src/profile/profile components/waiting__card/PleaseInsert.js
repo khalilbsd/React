@@ -7,6 +7,7 @@ import AddProd from '../AddProd.js';
 
 const useStyles = makeStyles({
   root: {
+    marginLeft:'5%',
     marginTop:'1%',
     width:'100%',
     textAlign:'center'

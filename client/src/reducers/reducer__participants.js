@@ -2,9 +2,9 @@ const reducer__participants = (participants = [], action) => {
     switch (action.type) {
         case 'FETCH ALL PARITCIPANT':
             return action.payload;
-        case 'VERIFY':
+        case 'VERIFY PARTICIPATION':
             return action.payload;
-        case 'FETCH BY PARAM':
+        case 'GET MY EVENTS':
             return action.payload; //participants.map((participant)=>participant.account_id === action.payload._id?action.payload:participant);
         case 'CREATE PARITCIPANT':
             return [...participants, action.payload];

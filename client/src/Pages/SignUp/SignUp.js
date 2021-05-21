@@ -14,6 +14,7 @@ import RepresentativeInfo from './components/RepresentativeInfo';
 import { action__post__accounts } from '../../actions/action__accounts';
 import { useDispatch } from 'react-redux';
 
+import { MuiThemeProvider} from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative'
@@ -47,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     stepper: {
-        padding: theme.spacing(3, 0, 5)
+        padding: theme.spacing(3, 0, 5),
+        
     },
     buttons: {
         display: 'flex',
@@ -55,8 +57,23 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginTop: theme.spacing(3),
-        marginLeft: theme.spacing(1)
+        marginLeft: theme.spacing(1),
+        backgroundColor:'#2196F3',
+        color:'white',
+        '&:hover':{
+            backgroundColor:'grey',
+        },
+    },
+    step:{
+        //backgroundColor:'#2196F3'
+    },
+    link:{
+        textDecoration:'none',
+        '&:hober':{
+            color:'white',
+        }
     }
+    
 }));
 
 const steps = ['Account Information', 'Organization Information', 'Representative Information'];
@@ -157,11 +174,11 @@ export default function SignUp() {
                     <Typography component="h1" variant="h4" align="center">
                         Sign Up
                     </Typography>
-                    <Stepper activeStep={activeStep} className={classes.stepper}>
+                    <Stepper  activeStep={activeStep} className={classes.stepper}>
                         {
                             steps.map((label) => (
-                                <Step key={label}>
-                                    <StepLabel>{label}</StepLabel>
+                                <Step className={classes.step} key={label}>
+                                    <StepLabel className={classes.step}>{label}</StepLabel>
                                 </Step>
                             ))
                         }
@@ -174,11 +191,11 @@ export default function SignUp() {
                                         <Typography variant="h5" gutterBottom="gutterBottom">
                                             Thank you for signing up.
                                         </Typography>
-                                        <Link to="/login">
+                                        <Link to="/login" className={classes.link}>
 
                                             <Button
                                                 variant="contained"
-                                                color="primary"
+                                                
                                                 onClick={handleNext}
                                                 className={classes.button}>
                                                 Sign In

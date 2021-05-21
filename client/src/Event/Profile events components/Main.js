@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     
     card: {
       display: 'flex',
-    
+       
   },
 }));
 
@@ -19,7 +19,7 @@ export default function Main(props) {
     const {event, title} = props;
 
     return (
-        <Grid item="item" xs={12} md={8}>
+       
             <Card className={classes.card}>
                 <Grid container="container" spacing={1}>
                     <div>
@@ -44,7 +44,7 @@ export default function Main(props) {
                     </div>
                 </Grid>
             </Card>
-        </Grid>
+     
     );
 }
 

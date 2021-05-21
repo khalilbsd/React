@@ -34,7 +34,7 @@ function Marketplace() {
     /*geting info form database */
     useEffect(() => {
         dispatch(action__get__verified__posts(id[0], event_id));
-    }, [event_id]);
+    }, [event_id,dispatch]);
     const store__posts = useSelector((state) => state.reducer__posts);
 
     console.log(store__posts);

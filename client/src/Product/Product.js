@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {withRouter} from "react-router-dom";
 /*componenet*/
-import ProdInf from './product components/prodInf';
-import ProdPic from './product components/prodPic'
+import Post from '../Pages/DashboardAdmin/components/Posts/Post'
 /*redux*/
 import {useDispatch, useSelector} from 'react-redux';
 /*actions*/
@@ -33,32 +32,9 @@ function Product({match, location}) {
     return (
         <div className={classes.container}>
             <Grid container="container">
-                <Grid item="item" xs={3}>
-                    <div className={classes.content}>
-                      {
-                        !store__post?
-                        <CircularProgress className="loading"/>
-                        :
-                        <ProdPic post={store__post}/>
-
-                      }
-                      
-                    </div>
-                </Grid>
-                <Grid item="item" xs={9}>
-                  {
-                    !store__post?
-                    <CircularProgress className="loading"/> 
-                    :<ProdInf post={store__post}/>
-                  }
-                    
-                </Grid>
+                <Post post={store__post}/>
             </Grid>
-
-            {/*<ProdInf/>
-
-      <ProdPic/>*/
-            }
+            
         </div>
     );
 }

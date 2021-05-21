@@ -1,7 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import Axios from 'axios';
-
-import ProfAction from './ProfAction.js'
+import React, {useEffect} from 'react';
 import ProdServ from './ProdServ'
 import PleaseInsert from './waiting__card/PleaseInsert';
 /*img*/
@@ -9,7 +6,6 @@ import PicInfo from './PicInfo.js'
 /*css*/
 import '../../css/prof.css';
 import {makeStyles} from '@material-ui/core/styles';
-import AddProd from './AddProd.js';
 import {CircularProgress} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 /*redux*/
@@ -20,7 +16,7 @@ import {action__get__one__account} from '../../actions/action__accounts';
 
 const useStyles = makeStyles((theme) => ({
     contprof: {
-        marginTop: '2%'
+        
     }
 }));
 
@@ -32,13 +28,13 @@ function Profile__tab1() {
 
     useEffect(() => {
         dispatch(action__get__one__account(id[0]));
-    }, [id]);
+    }, []);
 
     const account = useSelector((state) => state.reducer__accounts);
     //console.log(account.organization)
     useEffect(() => {
         dispatch(action__get__my__posts(id[0]));
-    }, [id]);
+    }, [dispatch]);
     const store__post = useSelector((state) => state.reducer__posts);
     /*
     useEffect(() => {
@@ -54,50 +50,22 @@ function Profile__tab1() {
 
     /*post*/
     const prof = (
-        <div className={classes.contprof}>
-            <Grid container="container" spacing={3}>
+        <Grid container="container">
+                {
+                    store__post[0]
+                        ? store__post.length > 0
+                            ? (store__post.map((post, key) => (
+                                <Grid item="item" xs={3}>
+                                    <ProdServ admin="me" id={key} post={post}/>
+                                </Grid>
+                            )))
+                            : <CircularProgress/>
+                        : <PleaseInsert id={id[0]}/>
+                }
+          
+        
 
-                <Grid item="item" xs={4}>
-                    {
-                        !account
-                            ? <CircularProgress className="loading"/>
-                            : !account.organization
-                                ? <CircularProgress className="loading"/>
-                                : <PicInfo account={account}/>
-                                    
-                    }
-                    < AddProd id={id[0]}/>
-                </Grid>
-                <Grid container="container" direction="row" xs={8}>
-                    <Grid item="item" xs={12}>
-                        
-                    {
-                        !account
-                            ? <CircularProgress className="loading"/>
-                            : !account.organization
-                                ? <CircularProgress />
-                                : <ProfAction info={account}/>
-                    }
-                      
-                    </Grid>
-                    <Grid container="container" xs={12}>
-
-                        {
-                store__post[0]?
-                store__post.length>0?
-                ( store__post.map((post, key) => (
-                <Grid item="item" xs={4}>
-                    <ProdServ id={key} post={post}/>
-                </Grid>
-                ) ) ) :
-                <CircularProgress />
-                :<PleaseInsert id={id[0]}/>
-                        }
-                    </Grid>
-                </Grid>
-            </Grid>
-
-        </div>
+    </Grid>
     );
     return prof;
 }

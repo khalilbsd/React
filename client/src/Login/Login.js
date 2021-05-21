@@ -38,15 +38,21 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: '#2196F3',
     },
     form: {
         width: '100%',
         marginTop: theme.spacing(1),
     },
     submit: {
+        backgroundColor:'#2196F3',
+        color:'white',
         margin: theme.spacing(3, 0, 2),
     },
+    icon:{
+        color:'white',
+        //backgroundColor:'#2196F3'
+    }
 }));
 
 export default function Login2({ setIsAuth, set_id, setRole, set_verified_by_admin }) {
@@ -99,7 +105,7 @@ export default function Login2({ setIsAuth, set_id, setRole, set_verified_by_adm
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
+                        <LockOutlinedIcon className={classes.icon} />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
@@ -121,6 +127,7 @@ export default function Login2({ setIsAuth, set_id, setRole, set_verified_by_adm
                                 email: e.target.value
                             })}
                         />
+                        
                         <TextField
                             error={error}
                             variant="outlined"
@@ -141,7 +148,7 @@ export default function Login2({ setIsAuth, set_id, setRole, set_verified_by_adm
                             type="submit"
                             fullWidth
                             variant="contained"
-                            color="primary"
+                            
                             className={classes.submit}
                         >
                             Sign In

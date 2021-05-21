@@ -29,11 +29,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Profiles = ({match, location}) => {
+const Profiles = ({id}) => {
     const classes = useStyles();
-    const {params: {
-            id
-        }} = match;
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(action__get__one__account(id));

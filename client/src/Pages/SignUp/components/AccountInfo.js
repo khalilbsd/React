@@ -29,12 +29,14 @@ export default function AccountInfo({ data, setData }) {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
+               
                     <TextField
                         required
                         id="password"
                         name="password"
                         label="Password"
                         fullWidth
+                        type="password"
                         autoComplete="password"
                         onChange={(e) => {
                             setData({

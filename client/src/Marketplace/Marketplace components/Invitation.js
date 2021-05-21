@@ -45,7 +45,8 @@ const Invitation = ({ invite }) => {
         event_id: event_id,
         party_one_id: id[0],
         party_two_id: invite.account,
-        unique_id: event_id + id[0] + invite.account
+        unique_id: event_id + id[0] + invite.account,
+        description:"",
     });
 
     const handleform = (e) => {

@@ -17,10 +17,21 @@ import dateFormat from 'dateformat';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EventIcon from '@material-ui/icons/Event';
 import InfoIcon from '@material-ui/icons/Info';
-
 import Modal from 'react-bootstrap/Modal';
 import FileBase from 'react-file-base64';
-
+//icon
+import IconButton from '@material-ui/core/IconButton';
+import CancelIcon from '@material-ui/icons/Cancel';
+import UpdateIcon from '@material-ui/icons/Update';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+//dialog
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -108,48 +119,15 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-end'
     },
-    
+
     button_desc: {
-        backgroundColor: '#f50057',
-        textAlign: 'center',
-        border: 'none',
-        width: '90%',
-        float: 'right',
-        borderRadius: 3,
-        color: 'white',
-        outline: 'none',
-        '&:hover': {
-            backgroundColor: '#f73378',
-            boxShadow: '0 3px 10px 0px #f73378'
-        }
+        color: '#f50057'
     },
     button_act: {
-        backgroundColor: '#76ff03',
-        textAlign: 'center',
-        border: 'none',
-        width: '90%',
-        float: 'right',
-        borderRadius: 3,
-        color: 'white',
-        outline: 'none',
-        '&:hover': {
-            backgroundColor: '#91ff35',
-            boxShadow: '0 3px 10px 0px #91ff35',
-        }
+        color: '#76ff03'
     },
-    button_update:{
-        backgroundColor: '#2196F3',
-        textAlign: 'center',
-        border: 'none',
-        width: '90%',
-        float: 'right',
-        borderRadius: 3,
-        color: 'white',
-        outline: 'none',
-        '&:hover': {
-            backgroundColor: 'grey',
-            boxShadow: '0 3px 10px 0px grey',
-        } 
+    button_update: {
+        color: '#2196F3'
     },
     input: {
         width: '80%',
@@ -159,14 +137,40 @@ const useStyles = makeStyles((theme) => ({
     inputImage: {
         //marginLeft:'15%',
         paddingLeft: '20%'
-    }
+    },
+    agree:{
+        color:'#f50057',
+    },
+    disagree:{
+        color:'green'
+    },
 }));
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props}/>;
+});
 export default function EventCard({event}) {
     const classes = useStyles();
     const theme = useTheme();
 
     const dispatch = useDispatch();
+    const [openActivateDialog, setOpenActivateDialog] = useState(false);
+    const [openDeactivateDialog, setOpenDeactivateDialog] = useState(false);
+
+    const handleActivateDialogkOpen = () => {
+        setOpenActivateDialog(true);
+    };
+
+    const handleActivateDialogClose = () => {
+        setOpenActivateDialog(false);
+    };
+
+    const handleDeactivateDialogkOpen = () => {
+        setOpenDeactivateDialog(true);
+    };
+
+    const handleDeactivateDialogClose = () => {
+        setOpenDeactivateDialog(false);
+    };
 
     //delete
     const [deletedEvent, setDeletedEvent] = useState({state: ""});
@@ -242,265 +246,311 @@ export default function EventCard({event}) {
     let history = useHistory();
 
     const [image, setImage] = useState("");
+    const deactivate = () => {
+        setDeletedEvent({
+            ...deletedEvent,
+            state: "false"
+        });
+        setEventId(event._id);
+        handleDeactivateDialogClose();
+    }
 
-    return (
-        <Grid container="container" spacing={3}>
-            <Grid item="item" xs={12}>
-                <img className={classes.cover} src={event.image}/>
-            </Grid>
-            <div className={classes.details}>
-                <CardContent className={classes.content}>
-                    <Typography component="h5" variant="h5">
-                        {event.title}
-                    </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
-                        <LocationOnIcon/> {event.location}
-                    </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
-                        <EventIcon/> {dateFormat(event.start_date, "mmm dd ,yyyy")}
-                        • {dateFormat(event.end_date, "mmm dd ,yyyy")}
-                    </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
-                        <InfoIcon/> {event.description}
-                    </Typography>
-                </CardContent>
-                <div className={classes.controls}>
-                    <div className={classes.buttons}>
-                        {
-                            event.state == "true"
-                                ? (
-                                    <div>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => {
-                                                setDeletedEvent({
-                                                    ...deletedEvent,
-                                                    state: "false"
-                                                });
-                                                setEventId(event._id);
-                                            }}
-                                            className={classes.button_desc}>Deactivate</Button>
-                                    </div>
-                                )
-                                : (
-                                    <div>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => {
-                                                setDeletedEvent({
-                                                    ...deletedEvent,
-                                                    state: "true"
-                                                });
-                                                setEventId(event._id);
-                                            }}
-                                            className={classes.button_act}>Activate</Button>
-                                        <br/>
-                                    </div>
-                                )
-                        }
-                        {/*begin modal*/}
-                        <div>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleOpen}
-                                className={classes.button_update}>
-                                Update
-                            </Button>
-                        </div>
+    const activate = () => {
+        setDeletedEvent({
+            ...deletedEvent,
+            state: "true"
+        });
+        setEventId(event._id);
+        handleActivateDialogClose();
+    }
+    return (<Grid container="container" spacing={3}>
+        <Grid item="item" xs={12}>
+            <img className={classes.cover} src={event.image}/>
+        </Grid>
+        <div className={classes.details}>
+            <CardContent className={classes.content}>
+                <Typography component="h5" variant="h5">
+                    {event.title}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                    <LocationOnIcon/> {event.location}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                    <EventIcon/> {dateFormat(event.start_date, "mmm dd ,yyyy")}
+                    {dateFormat(event.end_date, "mmm dd ,yyyy")}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                    <InfoIcon/> {event.description}
+                </Typography>
+            </CardContent>
+            <div className={classes.controls}>
+                <div className={classes.buttons}>
+                    {
+                        event.state == "true"
+                            ? (
+                                <div>
+                                    <IconButton onClick={handleDeactivateDialogkOpen} className={classes.button_act}>
+                                        <VisibilityIcon/>
+                                    </IconButton>
+
+                                </div>
+                            )
+                            : (
+                                <div>
+                                     <IconButton onClick={handleActivateDialogkOpen} className={classes.button_desc}>
+                                        <VisibilityOffIcon/>
+                                    </IconButton>
+                                   
+
+                                    <br/>
+                                </div>
+                            )
+                    }
+                    {/*begin modal*/}
+                    <div>
+                        <IconButton onClick={handleOpen} className={classes.button_update}>
+                            <UpdateIcon/>
+                        </IconButton>
 
                     </div>
-                    <Modal
-                        show={open}
-                        animation={true}
-                        size="xl"
-                        aria-labelledby="contained-modal-title-vcenter"
-                        centered="centered">
-                        <form className={classes.form} noValidate="noValidate">
-                            <Modal.Body>
-                                <Typography component="h1" align="center" variant="h5">
-                                    Update Event
-                                </Typography>
-                                <Grid item="item" xs={12} className={classes.left}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            margin="normal"
-                                            id="date-picker-dialog"
-                                            label="Start Date"
-                                            format="MM/dd/yyyy"
-                                            value={updatedEvent.start_date}
-                                            onChange={(e) => {
-                                                setUpdatedEvent({
-                                                    ...updatedEvent,
-                                                    start_date: e.target.value
-                                                })
-                                            }
-}
-                                            KeyboardButtonProps={{
-                                                "aria-label" : "change date"
-                                            }}/>
-                                        <KeyboardTimePicker
-                                            margin="normal"
-                                            id="time-picker"
-                                            label="Start Time"
-                                            value={updatedEvent.start_date}
-                                            onChange={(e) => {
-                                                setUpdatedEvent({
-                                                    ...updatedEvent,
-                                                    start_date: e.target.value
-                                                })
-                                            }
-}
-                                            KeyboardButtonProps={{
-                                                "aria-label" : "change time"
-                                            }}/>
-                                        <KeyboardDatePicker
-                                            margin="normal"
-                                            id="date-picker-dialog"
-                                            label="End Date"
-                                            format="MM/dd/yyyy"
-                                            value={updatedEvent.end_date}
-                                            onChange={(e) => {
-                                                setUpdatedEvent({
-                                                    ...updatedEvent,
-                                                    end_date: e.target.value
-                                                })
-                                            }
-}
-                                            KeyboardButtonProps={{
-                                                "aria-label" : "change date"
-                                            }}/>
-                                        <KeyboardTimePicker
-                                            margin="normal"
-                                            id="time-picker"
-                                            label="End Time"
-                                            value={updatedEvent.end_date}
-                                            onChange={(e) => {
-                                                setUpdatedEvent({
-                                                    ...updatedEvent,
-                                                    end_date: e.target.value
-                                                })
-                                            }
-}
-                                            KeyboardButtonProps={{
-                                                "aria-label" : "change time"
-                                            }}/>
-                                    </MuiPickersUtilsProvider>
-                                </Grid>
-                                <Grid container="container" spacing={3}>
-
-                                    <Grid container="container" xs={6}>
-                                        <Grid item="item" xs={12} className={classes.left}>
-                                            <TextField
-                                                className={classes.input}
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth="fullWidth"
-                                                id="title"
-                                                label="Title"
-                                                name="title"
-                                                autoFocus="autoFocus"
-                                                defaultValue={event.title}
-                                                onChange={(e) => {
-                                                    setUpdatedEvent({
-                                                        ...updatedEvent,
-                                                        title: e.target.value
-                                                    });
-                                                }}/>
-                                        </Grid>
-                                        <Grid item="item" xs={12} className={classes.left}>
-                                            <TextField
-                                                className={classes.input}
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth="fullWidth"
-                                                id="industrial_sector"
-                                                label="Industrial Sector"
-                                                name="industrial_sector"
-                                                autoFocus="autoFocus"
-                                                defaultValue={event.industrial_sector}
-                                                onChange={(e) => {
-                                                    setUpdatedEvent({
-                                                        ...updatedEvent,
-                                                        industrial_sector: e.target.value
-                                                    });
-                                                }}/>
-                                        </Grid>
-
-                                    </Grid>
-                                    <Grid container="container" xs={6}>
-                                        <Grid item="item" xs={12} className={classes.right}>
-                                            <TextField
-                                                className={classes.input}
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth="fullWidth"
-                                                id="location"
-                                                label="Location"
-                                                name="location"
-                                                autoFocus="autoFocus"
-                                                defaultValue={event.location}
-                                                onChange={(e) => {
-                                                    setUpdatedEvent({
-                                                        ...updatedEvent,
-                                                        location: e.target.value
-                                                    });
-                                                }}/>
-                                        </Grid>
-                                        <Grid item="item" xs={12} className={classes.right}>
-                                            <TextField
-                                                className={classes.input}
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth="fullWidth"
-                                                id="description"
-                                                label="Description"
-                                                name="description"
-                                                autoFocus="autoFocus"
-                                                defaultValue={event.description}
-                                                onChange={(e) => {
-                                                    setUpdatedEvent({
-                                                        ...updatedEvent,
-                                                        description: e.target.value
-                                                    });
-                                                }}/>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item="item" xs={12} className={classes.inputImage}>
-                                        <FileBase
-                                            defaultValue={event.image}
-                                            type="File"
-                                            multiple={false}
-                                            onDone={({base64}) => setUpdatedEvent({
-                                                ...updatedEvent,
-                                                image: base64
-
-                                            })}/>
-                                    </Grid>
-                                </Grid>
-                            </Modal.Body>
-                        </form>
-                        <Modal.Footer>
-                            <Button type="submit" fullWidth="fullWidth" variant="contained"
-                                //color="primary"
-                                className={classes.submit} onClick={handleUpdate}>
-                                Update
+                    <Dialog open={openDeactivateDialog} TransitionComponent={Transition} fullWidth="lg" keepMounted="keepMounted" onClose={handleDeactivateDialogClose}
+                        //aria-labelledby="alert-dialog-slide-title"
+                        
+                        //aria-describedby="alert-dialog-slide-description">
+                    >
+                        <DialogTitle id="alert-dialog-slide-title">{"Are you sure you want to deactivate "}{event.title}
+                            ?</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-slide-description">
+                                This will be desactivited and all of the participants won't be able to
+                                participate
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleDeactivateDialogClose} className={classes.disagree}>
+                                Disagree
                             </Button>
-                            <Button
-                                onClick={handleClose}
-                                fullWidth="fullWidth"
-                                variant="contained"
-                                className={classes.close}>Close</Button>
-                        </Modal.Footer>
+                            <Button onClick={deactivate} className={classes.agree}>
+                                Agree
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
 
-                    </Modal>
+
+                            {/*activate*/}
+                    <Dialog
+                        open={openActivateDialog}
+                        TransitionComponent={Transition}
+                        fullWidth="lg"
+                        keepMounted="keepMounted"
+                        onClose={handleActivateDialogClose}>
+                        <DialogTitle id="alert-dialog-slide-title">{"Are you sure you want to activate "}{event.title}
+                            ?</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-slide-description">
+                                this event will be activated and all of the user will have the ability the participate in
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleActivateDialogClose} className={classes.disagree}>
+                                Disagree
+                            </Button>
+                            <Button onClick={activate} className={classes.agree}>
+                                Agree
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
                 </div>
-                {/*end modal*/}
+                <Modal
+                    show={open}
+                    animation={true}
+                    size="xl"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered="centered">
+                    <form className={classes.form} noValidate="noValidate">
+                        <Modal.Body>
+                            <Typography component="h1" align="center" variant="h5">
+                                Update Event
+                            </Typography>
+                            <Grid item="item" xs={12} className={classes.left}>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        margin="normal"
+                                        id="date-picker-dialog"
+                                        label="Start Date"
+                                        format="MM/dd/yyyy"
+                                        value={updatedEvent.start_date}
+                                        onChange={(e) => {
+                                            setUpdatedEvent({
+                                                ...updatedEvent,
+                                                start_date: e.target.value
+                                            })
+                                        }
+}
+                                        KeyboardButtonProps={{
+                                            "aria-label" : "change date"
+                                        }}/>
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        id="time-picker"
+                                        label="Start Time"
+                                        value={updatedEvent.start_date}
+                                        onChange={(e) => {
+                                            setUpdatedEvent({
+                                                ...updatedEvent,
+                                                start_date: e.target.value
+                                            })
+                                        }
+}
+                                        KeyboardButtonProps={{
+                                            "aria-label" : "change time"
+                                        }}/>
+                                    <KeyboardDatePicker
+                                        margin="normal"
+                                        id="date-picker-dialog"
+                                        label="End Date"
+                                        format="MM/dd/yyyy"
+                                        value={updatedEvent.end_date}
+                                        onChange={(e) => {
+                                            setUpdatedEvent({
+                                                ...updatedEvent,
+                                                end_date: e.target.value
+                                            })
+                                        }
+}
+                                        KeyboardButtonProps={{
+                                            "aria-label" : "change date"
+                                        }}/>
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        id="time-picker"
+                                        label="End Time"
+                                        value={updatedEvent.end_date}
+                                        onChange={(e) => {
+                                            setUpdatedEvent({
+                                                ...updatedEvent,
+                                                end_date: e.target.value
+                                            })
+                                        }
+}
+                                        KeyboardButtonProps={{
+                                            "aria-label" : "change time"
+                                        }}/>
+                                </MuiPickersUtilsProvider>
+                            </Grid>
+                            <Grid container="container" spacing={3}>
 
+                                <Grid container="container" xs={6}>
+                                    <Grid item="item" xs={12} className={classes.left}>
+                                        <TextField
+                                            className={classes.input}
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth="fullWidth"
+                                            id="title"
+                                            label="Title"
+                                            name="title"
+                                            autoFocus="autoFocus"
+                                            defaultValue={event.title}
+                                            onChange={(e) => {
+                                                setUpdatedEvent({
+                                                    ...updatedEvent,
+                                                    title: e.target.value
+                                                });
+                                            }}/>
+                                    </Grid>
+                                    <Grid item="item" xs={12} className={classes.left}>
+                                        <TextField
+                                            className={classes.input}
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth="fullWidth"
+                                            id="industrial_sector"
+                                            label="Industrial Sector"
+                                            name="industrial_sector"
+                                            autoFocus="autoFocus"
+                                            defaultValue={event.industrial_sector}
+                                            onChange={(e) => {
+                                                setUpdatedEvent({
+                                                    ...updatedEvent,
+                                                    industrial_sector: e.target.value
+                                                });
+                                            }}/>
+                                    </Grid>
+
+                                </Grid>
+                                <Grid container="container" xs={6}>
+                                    <Grid item="item" xs={12} className={classes.right}>
+                                        <TextField
+                                            className={classes.input}
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth="fullWidth"
+                                            id="location"
+                                            label="Location"
+                                            name="location"
+                                            autoFocus="autoFocus"
+                                            defaultValue={event.location}
+                                            onChange={(e) => {
+                                                setUpdatedEvent({
+                                                    ...updatedEvent,
+                                                    location: e.target.value
+                                                });
+                                            }}/>
+                                    </Grid>
+                                    <Grid item="item" xs={12} className={classes.right}>
+                                        <TextField
+                                            className={classes.input}
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth="fullWidth"
+                                            id="description"
+                                            label="Description"
+                                            name="description"
+                                            autoFocus="autoFocus"
+                                            defaultValue={event.description}
+                                            onChange={(e) => {
+                                                setUpdatedEvent({
+                                                    ...updatedEvent,
+                                                    description: e.target.value
+                                                });
+                                            }}/>
+                                    </Grid>
+                                </Grid>
+                                <Grid item="item" xs={12} className={classes.inputImage}>
+                                    <FileBase
+                                        defaultValue={event.image}
+                                        type="File"
+                                        multiple={false}
+                                        onDone={({base64}) => setUpdatedEvent({
+                                            ...updatedEvent,
+                                            image: base64
+
+                                        })}/>
+                                </Grid>
+                            </Grid>
+                        </Modal.Body>
+                    </form>
+                    <Modal.Footer>
+                        <Button type="submit" fullWidth="fullWidth" variant="contained"
+                            //color="primary"
+                            className={classes.submit} onClick={handleUpdate}>
+                            Update
+                        </Button>
+                        <Button
+                            onClick={handleClose}
+                            fullWidth="fullWidth"
+                            variant="contained"
+                            className={classes.close}>Close</Button>
+                    </Modal.Footer>
+
+                </Modal>
             </div>
-        </Grid>
+            {/*end modal*/}
+
+        </div>
+    </Grid>
 
     );
 }

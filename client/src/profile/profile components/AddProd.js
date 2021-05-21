@@ -21,105 +21,141 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+//icon
+import CancelIcon from '@material-ui/icons/Cancel';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 //redux
 import {useSelector} from 'react-redux';
-import { useEffect } from 'react';
-import { action__get__participants } from '../../actions/action__participants';
-import { action__get__events } from '../../actions/action__events';
+import {useEffect} from 'react';
+import {action__get__participants} from '../../actions/action__participants';
+import {action__get__events} from '../../actions/action__events';
+import {LinearProgress} from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     modal: {
+        marginLeft: '5%',
+        zIndex: '1100'
+    },
+    modal_title: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    left: {
         marginLeft: '5%'
     },
-    modal_title:{
-        display:'flex',
-        justifyContent:'center',
- },
-left:{
-   marginLeft:'5%'
-},
- btn_add:{
-     backgroundColor:'green',
-     paddingLeft:'45%',
-     paddingRight:'50%',
-     textAlign:'center',
-     outline:'none',
-     border:'none',
-     '&:hover':{
-        backgroundColor:'#6cef6c'   
-    },
-    '&:active':{
+    btn_add: {
+        backgroundColor: 'green',
+        paddingLeft: '45%',
+        paddingRight: '50%',
+        textAlign: 'center',
         outline: 'none',
-        border: 'none' ,
-        textDecoration: 'none',
-        backgroundColor:'green'
-     }
- },
- btn_add_main:{
-    color: '#2699fb',
-     outline: 'none',
-     border: 'none', 
-     borderRadius: '100%',
-     '&:hover':{
-         color:'#92c5f1',
-     },
-     '&:active':{
+        border: 'none',
+        '&:hover': {
+            backgroundColor: '#6cef6c'
+        },
+        '&:active': {
+            outline: 'none',
+            border: 'none',
+            textDecoration: 'none',
+            backgroundColor: 'green'
+        },
+        '&:focus': {
+            backgroundColor: 'green',
+            border: 'none',
+            outline: 'none',
+            boxShadow: 'none'
+        }
+    },
+    btn_add_main: {
+        color: '#2699fb',
         outline: 'none',
-        border: 'none' ,
-        textDecoration: 'none',
-     }
- },
- add_main:{
-     fontSize:'100px',
- },
- add_frm:{
-     marginBottom:'3%',
-     textAlign:'left',
- },
- btn_mod_add:{
-    color:'white',
-     backgroundColor:'#2699fb',
-     border:'none',
-     width:'30%',
-     '&:hover':{
-        color:'white',
-        backgroundColor:'#68A5CF',
+        border: 'none',
+        borderRadius: '100%',
+        '&:hover': {
+            color: '#92c5f1'
+        },
+        '&:active': {
+            outline: 'none',
+            border: 'none',
+            textDecoration: 'none',
+            color: 'red',
+            boxShadow: 'none'
+        },
+        '&:focus': {
+            color: '#2699fb',
+            border: 'none',
+            outline: 'none',
+            boxShadow: 'none'
+        }
+
+    },
+    add_main: {
+        fontSize: '100px'
+    },
+    add_frm: {
+        marginBottom: '3%',
+        textAlign: 'left'
+    },
+    btn_mod_add: {
+        color: 'white',
+        backgroundColor: '#2699fb',
+        border: 'none',
+        width: '100%',
+        textAlign:'center',
+        '&:hover': {
+            color: 'white',
+            backgroundColor: '#68A5CF'
+        }
+    },
+    cancel:{
+        color: 'white',
+        backgroundColor: '#f50057',
+        border: 'none',
+        width: '100%',
+        textAlign:'center',
+        '&:hover': {
+            color: 'white',
+            backgroundColor: '#f73378'
+        }
+    },
+    icon:{
+        //marginTop:1,
     },
 
- },
+    typeInput: {
+        width: 500,
+        textAlign: 'center'
+    },
 
- typeInput:{
-     width:500,
-     textAlign:'center',
+    add_frm_title: {
+        marginBottom: '2%',
+        width: '70%'
+    },
 
- },
+    add_frm_video: {
+        marginBottom: '9%',
+        width: '70%'
+    },
 
- add_frm_title:{
-     marginBottom:'2%',
-     width:'70%',
- },
+    add_frm_state: {
+        marginBottom: '2%'
+    },
+    add_frm_image: {
+        marginTop: '5%',
+        marginBottom: '5%'
+    },
 
- add_frm_video:{
-    marginBottom:'9%',
-    width:'70%',
-},
-
-add_frm_state:{
-    marginBottom:'2%'
-},
-add_frm_image:{
-marginTop:'5%',
-marginBottom:'5%'
-},
-
-tit:{
-    marginTop:'2%',
-    marginBottom:'2%',
-},
-indust:{
-    width:500
-}
-
+    tit: {
+        marginTop: '2%',
+        marginBottom: '2%'
+    },
+    indust: {
+        width: 500
+    },
+    preview:{
+        width:'25%',
+        float:'center',
+        border:'1px solid lightgrey'
+    }
 }));
 function AddProd({style}) {
     const classes = useStyles();
@@ -134,14 +170,18 @@ function AddProd({style}) {
         video: '',
         description: '',
         state: '',
-        industrial_field:'it',
+        industrial_field: 'it',
         account: id[0]
     });
 
-    const handleClose = () => setShow(false);
+    const handleClose = () =>{
+      
+        setShow(false);
+        setPostData({...prodData,image:""})
+      
+    } 
     const handleShow = () => setShow(true);
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         dispatch(action__get__participants());
@@ -149,10 +189,8 @@ function AddProd({style}) {
     const store__participants = useSelector((state) => state.reducer__participants);
     useEffect(() => {
         dispatch(action__get__events());
-    }, [dispatch]);
+    }, []);
     const store__events = useSelector((state) => state.reducer__events);
-
-
 
     const handleform = (e) => {
         e.preventDefault();
@@ -169,13 +207,18 @@ function AddProd({style}) {
                         < Button onClick = {
                             handleShow
                         }
-                        className ={classes.btn_add_main} style = {{ background: 'transparent'}} > <AddCircleIcon className={classes.add_main}/>
+                        className = {
+                            classes.btn_add_main
+                        }
+                        style = {{ background: 'transparent'}} > <AddCircleIcon className={classes.add_main}/>
                     </Button>
                     )
                     : (< Button onClick = {
                         handleShow
                     }
-                    className = {classes.btn_add} > <AddCircleOutlineIcon/>
+                    className = {
+                        classes.btn_add
+                    } > <AddCircleOutlineIcon/>
                 </Button>)
             }
 
@@ -186,14 +229,14 @@ function AddProd({style}) {
                 animation={true}
                 size="xl"
                 centered="centered">
-                <Form autoComplete="off" noValidate="noValidate" onSubmit={handleform}>
+                <Form autoComplete="off" noValidate="noValidate" onSubmit={handleform} id="form">
                     <Modal.Header className={classes.modal_title}>
-                        <Modal.Title >Creating a product or a service</Modal.Title>
+                        <Modal.Title >Creating a post</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Grid container="container" spacing={3}>
-                            <Grid container="container" xs={6} >
-                            <Grid item="item" xs={12} className={classes.left}>
+                            <Grid container="container" xs={6}>
+                                <Grid item="item" xs={12} className={classes.left}>
                                     <Form.Row>
                                         <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
                                             <FormControl >
@@ -208,17 +251,17 @@ function AddProd({style}) {
                                                     })}>
                                                     <MenuItem value="generalmarketplace">General Marketplace</MenuItem>
                                                     {
-                                                        store__participants.map((participant, key) => (
-                                                            participant.account_id == id[0]
-                                                                ? (
-                                                                    store__events.map((event, key2) => (
+                                                        !store__events
+                                                            ? store__participants.map((participant, key) => (
+                                                                participant.account_id == id[0]
+                                                                    ? (store__events.map((event, key2) => (
                                                                         event._id == participant.event_id
-                                                                            ? (<MenuItem value={event._id}>{event.title}</MenuItem>)
+                                                                            ? (<MenuItem value={key2}>{event.title}</MenuItem>)
                                                                             : (null)
-                                                                    )
-                                                                    )
-                                                                ) : (null)
-                                                        ))
+                                                                    )))
+                                                                    : (null)
+                                                            ))
+                                                            : <LinearProgress class={classes.loadingBar}/>
                                                     }
 
                                                 </Select>
@@ -227,8 +270,6 @@ function AddProd({style}) {
                                         </Form.Group>
                                     </Form.Row>
                                 </Grid>
-
-
 
                                 <Grid item="item" xs={12} className={classes.left}>
                                     <Form.Row>
@@ -254,28 +295,28 @@ function AddProd({style}) {
                                     </Form.Row>
                                 </Grid>
                                 <Grid item="item" xs={12} className={classes.left}>
-                                            <Form.Row>
-                                                <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
+                                    <Form.Row>
+                                        <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
 
-                                                    <FormControl >
-                                                        <InputLabel id="select-type-label">Industrial Field</InputLabel>
-                                                        <Select
-                                                            className={classes.indust}
-                                                            labelId="select-type-label"
-                                                            id="demo-simple-select"
-                                                            onChange={(e) => setPostData({
-                                                                ...prodData,
-                                                                industrial_field: e.target.value
-                                                            })}>
-                                                            <MenuItem value="Product">It</MenuItem>
-                                                            <MenuItem value="Service">math</MenuItem>
-                                                            <MenuItem value="Service">...</MenuItem>
-                                                        </Select>
-                                                    </FormControl>
+                                            <FormControl >
+                                                <InputLabel id="select-type-label">Industrial Field</InputLabel>
+                                                <Select
+                                                    className={classes.indust}
+                                                    labelId="select-type-label"
+                                                    id="demo-simple-select"
+                                                    onChange={(e) => setPostData({
+                                                        ...prodData,
+                                                        industrial_field: e.target.value
+                                                    })}>
+                                                    <MenuItem value="Product">It</MenuItem>
+                                                    <MenuItem value="Service">math</MenuItem>
+                                                    <MenuItem value="Service">...</MenuItem>
+                                                </Select>
+                                            </FormControl>
 
-                                                </Form.Group>
-                                            </Form.Row>
-                                        </Grid>
+                                        </Form.Group>
+                                    </Form.Row>
+                                </Grid>
                                 <Grid item="item" xs={12} className={classes.left}>
                                     <Form.Group>
                                         <InputLabel id="select-image-label" className={classes.tit}>Upload a Image</InputLabel>
@@ -286,6 +327,7 @@ function AddProd({style}) {
                                                 ...prodData,
                                                 image: base64
                                             })}/>
+                                         <img src={prodData.image} className={classes.preview}/>
                                     </Form.Group>
                                 </Grid>
                                 <Grid item="item" xs={12} className={classes.left}>
@@ -314,7 +356,7 @@ function AddProd({style}) {
 
                                         <Form.Group as={Col}>
                                             <TextField
-                                            className={classes.add_frm_title}
+                                                className={classes.add_frm_title}
                                                 id="standard-basic"
                                                 label="Title"
                                                 onChange={(e) => setPostData({
@@ -329,7 +371,7 @@ function AddProd({style}) {
                                     <Form.Row>
                                         <Form.Group as={Col}>
                                             <TextField
-                                            className={classes.add_frm_title}
+                                                className={classes.add_frm_title}
                                                 id="desc"
                                                 label="Description"
                                                 onChange={(e) => setPostData({
@@ -345,7 +387,7 @@ function AddProd({style}) {
                                     <Form.Row>
                                         <Form.Group as={Col}>
                                             <TextField
-                                                 className={classes.add_frm_video}
+                                                className={classes.add_frm_video}
                                                 id="video"
                                                 label="Youtube Link"
                                                 onChange={(e) => setPostData({
@@ -361,27 +403,35 @@ function AddProd({style}) {
                                     <Form.Group >
                                         <InputLabel id="select-File-label" className={classes.tit}>Upload a File</InputLabel>
                                         <FileBase
-                                              className={classes.add_frm_file}
+                                            className={classes.add_frm_file}
                                             type="File"
                                             multiple={false}
                                             onDone={({base64}) => setPostData({
                                                 ...prodData,
                                                 file: base64
                                             })}/>
-
+                                       
                                     </Form.Group>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button type="submit" className={classes.btn_mod_add}>
-                            <AddCircleOutlineIcon/>
-                            Add prod
-                        </Button>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
+                        <Grid container="container" spacing={3}>
+                            <Grid item="item" xs={12}>
+                                <Button type="submit" className={classes.btn_mod_add}>
+                                    <AddCircleOutlineIcon className={classes.icon}/>
+                                 
+                                </Button>
+                            </Grid>
+                            <Grid item="item" xs={12}>
+                                <Button variant="secondary" onClick={handleClose} className={classes.cancel} >
+                                   <CancelIcon className={classes.icon}/>
+                                </Button>
+                            </Grid>
+
+                        </Grid>
+
                     </Modal.Footer>
                 </Form>
             </Modal>
