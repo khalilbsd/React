@@ -18,7 +18,8 @@ import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: "flex"
+        display: "flex",
+        width:'80%'
     },
     details: {
         display: "flex",
@@ -28,18 +29,61 @@ const useStyles = makeStyles((theme) => ({
         flex: "1 0 auto"
     },
     cover: {
-        width: 151
+        width: 250,
     },
-    controls: {
-        display: "flex",
-        alignItems: "center",
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1)
-    },
+   
     playIcon: {
         height: 38,
         width: 38
+    },
+    accept:{
+        backgroundColor:"#2196F3",
+        color:'white',
+        marginLeft:50,
+        width:'40%',
+        marginRight:5,
+        marginBottom:30,
+        textTransform:'capitalize',
+        '&:hover':{
+            color:'black'
+        }
+    },
+    join:{
+        backgroundColor:"#2196F3",
+        color:'white',
+        marginLeft:50,
+        width:'40%',
+        marginRight:5,
+        marginBottom:30,
+        textTransform:'capitalize',
+        '&:hover':{
+            color:'black'
+        }
+    },
+    deny:{
+        backgroundColor:"#f50057",
+        color:'white',
+        width:'40%',
+        marginBottom:30,
+        textTransform:'capitalize',
+        '&:hover':{
+            color:'black'
+        }
+
+    },
+    cancel:{
+        backgroundColor:"#f50057",
+        color:'white',
+        width:'40%',
+        marginLeft:50,
+        marginBottom:30,
+        textTransform:'capitalize',
+        '&:hover':{
+            color:'black'
+        }
+
     }
+
 }));
 
 export default function MeetingCard({ _id, account, meeting, event }) {
@@ -102,7 +146,7 @@ export default function MeetingCard({ _id, account, meeting, event }) {
                                     ? (
                                         <Button
                                             variant="contained"
-                                            color="primary"
+                                            className={classes.cancel}
                                             onClick={() => {
                                                 setUpdatedMeeting({
                                                     ...updatedMeeting,
@@ -120,7 +164,7 @@ export default function MeetingCard({ _id, account, meeting, event }) {
                                                         <div>
                                                             <Button
                                                                 variant="contained"
-                                                                color="primary"
+                                                               className={classes.join}
                                                                 onClick={() => {
                                                                     window.location.href = `http://localhost:3001/${meeting.location}`;
                                                                 }}>Join Meeting</Button>
@@ -141,7 +185,7 @@ export default function MeetingCard({ _id, account, meeting, event }) {
                                     ? (
                                         < div > <Button
                                             variant="contained"
-                                            color="primary"
+                                            className={classes.accept}
                                             onClick={() => {
                                                 setUpdatedMeeting({
                                                     ...updatedMeeting,
@@ -152,7 +196,7 @@ export default function MeetingCard({ _id, account, meeting, event }) {
                                             }}>Accept</Button>
                                             <Button
                                                 variant="contained"
-                                                color="primary"
+                                                className={classes.deny}
                                                 onClick={() => {
                                                     setUpdatedMeeting({
                                                         ...updatedMeeting,

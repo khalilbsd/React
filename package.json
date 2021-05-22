@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "forest": "cd server && npm run dev ",
+    "forest": "cd server && npm run dev",
     "jungle": "cd server2 && npm run dev"
   },
   "repository": {

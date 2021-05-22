@@ -227,21 +227,7 @@ export default function EventCard({event}) {
         setOpen(false);
     };
 
-    /*const [selectedStartDate, setSelectedStartDate] = React.useState(
-        new Date("2014-08-18T21:11:54")
-    );
 
-    const [selectedEndDate, setSelectedEndDate] = React.useState(
-        new Date("2014-08-18T21:11:54")
-    );*/
-
-    /*const handleStartDateChange = (date) => {
-        setSelectedStartDate(date);
-    };
-
-    const handleEndDateChange = (date) => {
-        setSelectedEndDate(date);
-    };*/
 
     let history = useHistory();
 

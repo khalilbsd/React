@@ -9,6 +9,10 @@ const schema__accounts = mongoose.Schema({
         type: String,
         default: "0" //0:user & 1:participant & 2:admin
     },
+    seen: {
+        type: String,
+        default: "false"
+    },
     email: {
         type: String,
         unique: 1

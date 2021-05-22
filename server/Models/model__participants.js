@@ -8,6 +8,10 @@ const schema__participants = mongoose.Schema({
         type:String,
         default:"false"
     },
+    seen: {
+        type: String,
+        default: "false"
+    },
 });
 
 const model__participants = mongoose.model('participants', schema__participants);

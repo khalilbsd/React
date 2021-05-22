@@ -11,6 +11,7 @@ import MeetingCard from './MeetingCard.js';
 import { action__get__meetings } from '../../../actions/action__meetings';
 import { action__get__accounts } from '../../../actions/action__accounts';
 import { action__get__events } from '../../../actions/action__events';
+import { CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -124,6 +125,9 @@ export default function SentMeetingRequests({ _id }) {
     return (
         <div className={classes.root}>
             {
+                store__meetings.length<0?
+                <CircularProgress/>
+                :
                 store__meetings.map((meeting, key) => (
                     meeting.party_one_id == _id
                         ? (store__accounts.map((account, key2) => (

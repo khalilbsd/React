@@ -1,12 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 
 import ParticipantsCatalog from "./Participants components/ParticipantsCatalog";
 import Filter from "./Participants components/Filter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop:10,
     flexGrow: 1,
   },
   paper: {
@@ -18,24 +20,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Participants({ _id }) {
   const classes = useStyles();
   return (
-    <div>
+    <Container fixed>
+
+    
       {/*Participants*/}
       <Grid container className={classes.root} spacing={5} direction="column">
-        <Grid item xs={12} />
         <Grid container spacing={5} direction="row">
-          <Grid item xs={1} />{/*don't delete this line; ask jihen why*/}
-          {/*Filter*/}
-          <Grid item xs={3}>
-            <Filter />
-          </Grid>
-          {/*ParticipantsCatalog*/}
-          <Grid item xs={7}>
+          
+          <Grid item xs={12}>
             <ParticipantsCatalog _id={_id} />
           </Grid>
-          <Grid item xs={1} />{/* */}
+          
         </Grid>
-        <Grid item xs={12} />
       </Grid>
-    </div>
+    </Container>
   );
 }

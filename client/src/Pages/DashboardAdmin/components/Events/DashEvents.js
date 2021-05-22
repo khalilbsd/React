@@ -11,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import EventCard from './EventCard.js';
 import { action__get__events } from '../../../../actions/action__events';
 import DashDrawer from "../Drawer/DashDrawer.js"
+//Create
+import CreationEvent from './CreateEventCard'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -72,11 +74,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-    },
+    
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
@@ -119,130 +117,11 @@ export default function DashEvents() {
         <div className={classes.root}>
             <CssBaseline />
             <DashDrawer />
-            {/*begin modal
-            <div>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOpen}>
-                    Create
-                        </Button>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description">
-                    <div style={modalStyle} className={classes.mod}>
-                        <Container component="main" maxWidth="xs">
-                            <div className={classes.paper}>
 
-                                <Typography component="h1" variant="h5">
-                                    Create Event
-                                        </Typography>
-                                <form className={classes.form} noValidate="noValidate">
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        fullWidth="fullWidth"
-                                        id="title"
-                                        label="Title"
-                                        name="title"
-                                        autoFocus="autoFocus"
-                                        defaultValue={event.title}
-                                        onChange={(e) => {
-                                            setUpdatedEvent({
-                                                ...updatedEvent,
-                                                title: e.target.value
-                                            });
-                                        }} />
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            margin="normal"
-                                            id="date-picker-dialog"
-                                            label="Date picker dialog"
-                                            format="MM/dd/yyyy"
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            KeyboardButtonProps={{
-                                                "aria-label": "change date"
-                                            }} />
-                                        <KeyboardTimePicker
-                                            margin="normal"
-                                            id="time-picker"
-                                            label="Time picker"
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            KeyboardButtonProps={{
-                                                "aria-label": "change time"
-                                            }} />
-                                    </MuiPickersUtilsProvider>
-
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        fullWidth="fullWidth"
-                                        id="location"
-                                        label="Location"
-                                        name="location"
-                                        autoFocus="autoFocus"
-                                        defaultValue={event.location}
-                                        onChange={(e) => {
-                                            setUpdatedEvent({
-                                                ...updatedEvent,
-                                                location: e.target.value
-                                            });
-                                        }} />
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        fullWidth="fullWidth"
-                                        id="industrial_sector"
-                                        label="Industrial Sector"
-                                        name="industrial_sector"
-                                        autoFocus="autoFocus"
-                                        defaultValue={event.industrial_sector}
-                                        onChange={(e) => {
-                                            setUpdatedEvent({
-                                                ...updatedEvent,
-                                                industrial_sector: e.target.value
-                                            });
-                                        }} />
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        fullWidth="fullWidth"
-                                        id="description"
-                                        label="Description"
-                                        name="description"
-                                        autoFocus="autoFocus"
-                                        defaultValue={event.description}
-                                        onChange={(e) => {
-                                            setUpdatedEvent({
-                                                ...updatedEvent,
-                                                description: e.target.value
-                                            });
-                                        }} />
-                                    <Button
-                                        type="submit"
-                                        fullWidth="fullWidth"
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.submit}
-                                        onClick={handleUpdate}
-                                    >
-                                        Update
-                                            </Button>
-                                </form>
-                            </div>
-                        </Container>
-                    </div>
-                </Modal>
-            </div>
-
-            end modal*/}
             <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
+               
                 <Container maxWidth="lg" className={classes.container}>
+                    <CreationEvent/>
                     <Grid container spacing={3}>
                         {
                             store__events.map((event, key) => (

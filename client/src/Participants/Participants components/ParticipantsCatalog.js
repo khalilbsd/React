@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Card } from '@material-ui/core';
+import { Typography, Grid, Card, CircularProgress } from '@material-ui/core';
 import { action__get__participants } from '../../actions/action__participants';
 import { useDispatch } from 'react-redux';
 import User from "./User";
@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: "10px",
     paddingTop: "10px",
     paddingBottm: "10px"
+  },
+  title:{
+    color:"grey"
   }
 }));
 
@@ -38,13 +41,16 @@ export default function ParticipantsCatalog({ _id }) {
       <Grid container="container" className={classes.root} spacing={2}>
         {/*Title*/}
         <Grid item="item" xs={12}>
-          <Typography variant="h3">
-            Participants Catalog
+          <Typography variant="h3" className={classes.title}>
+            Participants List
                     </Typography>
         </Grid>
         {/*User 1*/}
         {
-          store__participants.map(
+          store__participants.length<0
+          ?<CircularProgress/>
+
+          :store__participants.map(
             (participant, key) => (store__accounts.map((account, key) => (
               account._id == participant.account_id
                 ? (

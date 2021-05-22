@@ -53,11 +53,11 @@ import {Link} from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     root: {
 
-        width: 250,
+        width: '90%',
         overflow: 'hidden',
         marginRight: '3%',
         maxHeight: 385,
-        minHeight: 30
+        minHeight: 390
     },
     link: {
         textDecoration: 'none'

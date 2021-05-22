@@ -8,10 +8,10 @@ import Button from '@material-ui/core/Button';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
-import Picture from "./user-logo.jpg";
 import {action__post__meetings} from '../../actions/action__meetings';
 import {useParams} from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 0 auto'
     },
     cover: {
-        width: 151
+        width: 151,
+        height: 150
     },
     controls: {
         display: 'flex',
@@ -36,6 +37,16 @@ const useStyles = makeStyles((theme) => ({
     playIcon: {
         height: 38,
         width: 38
+    },
+    btn: {
+       // paddingLeft:20,
+        //paddingRight:20,
+        width:'50%',
+        paddingTop:10,
+        paddingBottom:10,
+        marginTop:'9%',
+        backgroundColor: "#2196F3",
+        color: 'white'
     }
 }));
 
@@ -63,30 +74,48 @@ export default function User({_id, account, participant}) {
 
         account
             ? <Card className={classes.root}>
-                <CardMedia className={classes.cover} image={Picture} title="Picture"/>
-                <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
-                            {account.organization.representative.first_name + " " + account.organization.representative.last_name}
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            {account.organization.representative.job_position}
-                        </Typography>
-                    </CardContent>
-                    <div className={classes.controls}>
-                        <Button
-                            size="small"
-                            color="primary"
-                            variant="contained"
-                            onClick={() => {
-                                setNewMeeting({
-                                    ...newMeeting,
-                                    party_two_id: participant._id,
-                                    unique_id: id + _id + participant._id
-                                })
-                            }}>Request Meeting</Button>
-                    </div>
-                </div>
+                <Grid container="container" spacing={3}>
+
+                    <Grid item="item" xs={6}>
+                        <Grid container="container" spacing={3}>
+                            <Grid item="item" xs={4}>
+                                <CardMedia
+                                    className={classes.cover}
+                                    image={account.organization.representative.image}
+                                    title="Picture"/>
+                            </Grid>
+                            <Grid item="item" xs={8}>
+
+                                <div className={classes.details}>
+                                    <CardContent className={classes.content}>
+                                        <Typography component="h5" variant="h5">
+                                            {account.organization.representative.first_name + " " + account.organization.representative.last_name}
+                                        </Typography>
+                                        <Typography variant="subtitle1" color="textSecondary">
+                                            {account.organization.representative.job_position}
+                                        </Typography>
+                                    </CardContent>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item="item" xs={6}>
+                        <div className={classes.controls}>
+                            <Button
+                                size="small"
+                                className={classes.btn}
+                                variant="contained"
+                                onClick={() => {
+                                    setNewMeeting({
+                                        ...newMeeting,
+                                        party_two_id: participant._id,
+                                        unique_id: id + _id + participant._id
+                                    })
+                                }}>Request Meeting</Button>
+                        </div>
+                    </Grid>
+
+                </Grid>
             </Card>
             : <LinearProgress/>
     );

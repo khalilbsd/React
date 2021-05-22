@@ -23,6 +23,7 @@ import Footer from "./Pages/Footer/Footer.js";
 import Event from "./Event/Events";
 import ProfileEvent from "./Event/ProfileEvent";
 import Others from "./profile/Profiles";
+import Events from "./Event/Events";
 
 function App() {
 
@@ -37,7 +38,7 @@ function App() {
 
             <Switch>
 
-                <Route exact="exact" path="/" component={Home} />
+                <Route exact="exact" path="/" component={Events} />
 
                 <PageProtection
                     exact="exact"

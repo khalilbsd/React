@@ -1,14 +1,14 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { action__get__accounts } from '../../actions/action__accounts';
-import { action__patch__accounts } from '../../actions/action__accounts';
-import { action__get__participants } from '../../actions/action__participants';
-import { action__patch__participants } from '../../actions/action__participants';
-import { action__post__events } from '../../actions/action__events';
-import { action__get__events } from '../../actions/action__events';
-import { action__patch__events } from '../../actions/action__events';
+import {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {action__get__accounts} from '../../actions/action__accounts';
+import {action__patch__accounts} from '../../actions/action__accounts';
+import {action__get__participants} from '../../actions/action__participants';
+import {action__patch__participants} from '../../actions/action__participants';
+import {action__post__events} from '../../actions/action__events';
+import {action__get__events} from '../../actions/action__events';
+import {action__patch__events} from '../../actions/action__events';
 
 export default function DashboardAdmin() {
 
@@ -20,7 +20,7 @@ export default function DashboardAdmin() {
 
     const store__accounts = useSelector((state) => state.reducer__accounts);
 
-    const [updatedAccount, setUpdatedAccount] = useState({ verified_by_admin: "" });
+    const [updatedAccount, setUpdatedAccount] = useState({verified_by_admin: ""});
 
     const [accountId, setAccountId] = useState("");
 
@@ -44,7 +44,7 @@ export default function DashboardAdmin() {
     const store__participants = useSelector((state) => state.reducer__participants);
 
     const [updatedParticipant, setUpdatedParticipant] = useState(
-        { verified_by_admin: "" }
+        {verified_by_admin: ""}
     );
 
     const [participantId, setParticipantId] = useState("");
@@ -83,9 +83,8 @@ export default function DashboardAdmin() {
     const store__events = useSelector((state) => state.reducer__events);
 
     //delete
-    const [deletedEvent, setDeletedEvent] = useState({ state: "" });
+    const [deletedEvent, setDeletedEvent] = useState({state: ""});
     const [eventId, setEventId] = useState("");
-
 
     useEffect(() => {
         if (eventId && deletedEvent.state) {
@@ -117,7 +116,7 @@ export default function DashboardAdmin() {
     return (
         <div>
             <p>DashboardAdmin</p>
-            <br />
+            <br/>
             <p>Validate/Delete Accounts</p>
             {
                 store__accounts.map((account, key) => (
@@ -132,7 +131,7 @@ export default function DashboardAdmin() {
                                         });
                                         setAccountId(account._id);
                                     }}>Unvalidate Account</button>
-                                <br />
+                                <br/>
                             </div>
                         )
                         : (
@@ -145,12 +144,12 @@ export default function DashboardAdmin() {
                                         });
                                         setAccountId(account._id);
                                     }}>Unvalidate Account</button>
-                                <br />
+                                <br/>
                             </div>
                         )
                 ))
             }
-            <br />
+            <br/>
             <p>Validate/Delete Participants</p>
             {
                 store__participants.map((participant, key) => (
@@ -165,7 +164,7 @@ export default function DashboardAdmin() {
                                         });
                                         setParticipantId(participant._id);
                                     }}>Validate Participant</button>
-                                <br />
+                                <br/>
                             </div>
                         )
                         : (
@@ -178,16 +177,16 @@ export default function DashboardAdmin() {
                                         });
                                         setParticipantId(participant._id);
                                     }}>Unvalidate Participant</button>
-                                <br />
+                                <br/>
                             </div>
                         )
                 ))
             }
-            <br />
+            <br/>
             <p>CRUD Events</p>
-            <br />
+            <br/>
             <p>Create Events</p>
-            <br />
+            <br/>
             <form onSubmit={handleSubmit}>
                 <label>
                     Title:
@@ -199,7 +198,7 @@ export default function DashboardAdmin() {
                                 ...newEvent,
                                 title: e.target.value
                             });
-                        }} />
+                        }}/>
                 </label>
                 <label>
                     Start Date
@@ -211,7 +210,7 @@ export default function DashboardAdmin() {
                                 ...newEvent,
                                 start_date: e.target.value
                             });
-                        }} />
+                        }}/>
                 </label>
                 <label>
                     End Date
@@ -223,7 +222,7 @@ export default function DashboardAdmin() {
                                 ...newEvent,
                                 end_date: e.target.value
                             });
-                        }} />
+                        }}/>
                 </label>
                 <label>
                     Location
@@ -235,7 +234,7 @@ export default function DashboardAdmin() {
                                 ...newEvent,
                                 location: e.target.value
                             });
-                        }} />
+                        }}/>
                 </label>
                 <label>
                     Industrial Sector
@@ -247,7 +246,7 @@ export default function DashboardAdmin() {
                                 ...newEvent,
                                 industrial_sector: e.target.value
                             });
-                        }} />
+                        }}/>
                 </label>
                 <label>
                     Description
@@ -259,7 +258,7 @@ export default function DashboardAdmin() {
                                 ...newEvent,
                                 description: e.target.value
                             });
-                        }} />
+                        }}/>
                 </label>
                 <label>
                     Image
@@ -271,12 +270,12 @@ export default function DashboardAdmin() {
                                 ...newEvent,
                                 image: e.target.value
                             });
-                        }} />
+                        }}/>
                 </label>
 
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit"/>
             </form>
-            <br />
+            <br/>
             <p>Get Events + Deactivate Events + Update Events</p>
             {
                 store__events.map((event, key) => (
@@ -318,7 +317,7 @@ export default function DashboardAdmin() {
                                                     ...updatedEvent,
                                                     title: e.target.value
                                                 });
-                                            }} />
+                                            }}/>
                                     </label>
                                     <label>
                                         Start Date
@@ -331,7 +330,7 @@ export default function DashboardAdmin() {
                                                     ...updatedEvent,
                                                     start_date: e.target.value
                                                 });
-                                            }} />
+                                            }}/>
                                     </label>
                                     <label>
                                         End Date
@@ -344,7 +343,7 @@ export default function DashboardAdmin() {
                                                     ...updatedEvent,
                                                     end_date: e.target.value
                                                 });
-                                            }} />
+                                            }}/>
                                     </label>
                                     <label>
                                         Location
@@ -357,7 +356,7 @@ export default function DashboardAdmin() {
                                                     ...updatedEvent,
                                                     location: e.target.value
                                                 });
-                                            }} />
+                                            }}/>
                                     </label>
                                     <label>
                                         Industrial Sector
@@ -370,7 +369,7 @@ export default function DashboardAdmin() {
                                                     ...updatedEvent,
                                                     industrial_sector: e.target.value
                                                 });
-                                            }} />
+                                            }}/>
                                     </label>
                                     <label>
                                         Description
@@ -383,7 +382,7 @@ export default function DashboardAdmin() {
                                                     ...updatedEvent,
                                                     description: e.target.value
                                                 });
-                                            }} />
+                                            }}/>
                                     </label>
                                     <label>
                                         Image
@@ -396,13 +395,12 @@ export default function DashboardAdmin() {
                                                     ...updatedEvent,
                                                     image: e.target.value
                                                 });
-                                            }} />
+                                            }}/>
                                     </label>
-                                    <button
-                                        onClick={handleUpdate}>Update</button>
+                                    <button onClick={handleUpdate}>Update</button>
                                 </form>
 
-                                <br /> {/*//end torture*/}
+                                <br/> {/*//end torture*/}
                             </div>
                         )
                         : (
@@ -415,7 +413,7 @@ export default function DashboardAdmin() {
                                         });
                                         setEventId(event._id);
                                     }}>Activate Event</button>
-                                <br />
+                                <br/>
                             </div>
                         )
 

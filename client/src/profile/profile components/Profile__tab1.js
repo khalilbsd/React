@@ -55,7 +55,7 @@ function Profile__tab1() {
                     store__post[0]
                         ? store__post.length > 0
                             ? (store__post.map((post, key) => (
-                                <Grid item="item" xs={3}>
+                                <Grid item="item" xs={4}>
                                     <ProdServ admin="me" id={key} post={post}/>
                                 </Grid>
                             )))

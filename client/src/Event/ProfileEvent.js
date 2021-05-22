@@ -23,6 +23,8 @@ import Tab from '@material-ui/core/Tab';
 import '../css/profile_event.css';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+//agenda
+import Agenda from './Profile events components/Agenda'
 function TabPanel(props) {
     const {
         children,
@@ -129,7 +131,8 @@ const ProfileEvent = ({match, location}) => {
                                 <Main title="Description" event={event}/>
                             </TabPanel>
                             <TabPanel value={value} index={1} dir={theme.direction}>
-                                khalill
+                                {<Agenda/>}
+                                
                             </TabPanel>
                         </Grid>
                         <Grid item="item" xs={4} className={classes.test}>
