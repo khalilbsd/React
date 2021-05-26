@@ -32,6 +32,7 @@
     "material-ui-confirm": "^2.1.2",
     "moment-timezone": "^0.5.33",
     "react": "^17.0.1",
+    "react-big-scheduler": "^0.2.7",
     "react-bootstrap": "^1.5.2",
     "react-css-grid": "^2.0.0-0",
     "react-dom": "^17.0.1",

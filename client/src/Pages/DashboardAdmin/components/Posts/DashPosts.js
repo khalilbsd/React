@@ -1,93 +1,111 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import {useEffect} from 'react';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import PostCard from './PostCard.js';
-import { action__get__posts } from '../../../../actions/action__posts';
+import {action__get__admin__posts} from '../../../../actions/action__posts';
 import DashDrawer from "../Drawer/DashDrawer.js"
+import {useParams} from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: 'flex'
     },
     toolbar: {
-        paddingRight: 24,
+        paddingRight: 24
     },
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: '0 8px',
-        ...theme.mixins.toolbar,
+        ...theme.mixins.toolbar
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
+        transition: theme
+            .transitions
+            .create([
+                'width', 'margin'
+            ], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen
+            })
     },
     appBarShift: {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
+        transition: theme
+            .transitions
+            .create([
+                'width', 'margin'
+            ], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen
+            })
     },
     menuButton: {
-        marginRight: 36,
+        marginRight: 36
     },
     menuButtonHidden: {
-        display: 'none',
+        display: 'none'
     },
     title: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     drawerPaper: {
         position: 'relative',
         whiteSpace: 'nowrap',
         width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
+        transition: theme
+            .transitions
+            .create('width', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen
+            })
     },
     drawerPaperClose: {
         overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
+        transition: theme
+            .transitions
+            .create('width', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen
+            }),
         width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
-        },
+        [
+            theme
+                .breakpoints
+                .up('sm')
+        ]: {
+            width: theme.spacing(9)
+        }
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
         //height: '100vh',
-        overflow: 'auto',
+        overflow: 'auto'
     },
     container: {
         paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
+        paddingBottom: theme.spacing(4)
     },
-    
+
     fixedHeight: {
-        height: 240,
-    },
+        height: 240
+    }
 }));
 
 export default function Dashboard() {
+    let {id: event_id} = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -99,28 +117,25 @@ export default function Dashboard() {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    //end default
-    //begin post display
+    //end default begin post display
     useEffect(() => {
-        dispatch(action__get__posts());
-    }, [dispatch]);
-
+        dispatch(action__get__admin__posts(event_id));
+    }, [dispatch, event_id]);
     const store__posts = useSelector((state) => state.reducer__posts);
     //end post display
-
     return (
         <div className={classes.root}>
-            <CssBaseline />
-            <DashDrawer />
+            <CssBaseline/>
+            <DashDrawer/>
             <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
+                <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
+                    <Grid container="container" spacing={3}>
                         {/* Recent Orders */}
                         {
                             store__posts.map((post, key) => (
-                                <Grid item xs={12}>
-                                        <PostCard post={post} />
+                                <Grid item="item" xs={12}>
+                                    <PostCard post={post}/>
                                 </Grid>
                             ))
                         }

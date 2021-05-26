@@ -12,7 +12,8 @@ import '../../css/ProdServ.css';
 /*actions*/
 import moment from 'moment';
 import Invitation from './Invitation';
-
+//meeitngs
+import RequestMeeting from './RequestMeeting'
 //link
 import {Link} from 'react-router-dom';
 //axios
@@ -64,10 +65,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Item({post, idi}) {
+function Item({post,place}) {
     // const id = useSelector((state) => state.reducer__login)
     const classes = useStyles();
-console.log(post)
     return (
 
         <Card className={classes.root}>
@@ -104,8 +104,11 @@ console.log(post)
             {
                 !post
                     ? <LinearProgress className={classes.loadingBar}/>
-                    : <Invitation invite={post}/>
-
+                    : 
+                    place==="generalmarketplace"?
+                    <Invitation invite={post}/>
+                    :
+                    <RequestMeeting invite={post}/>
             }
         </Card>
 

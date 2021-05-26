@@ -256,7 +256,11 @@ function AddProd({style}) {
                                                                 participant.account_id == id[0]
                                                                     ? (store__events.map((event, key2) => (
                                                                         event._id == participant.event_id
-                                                                            ? (<MenuItem value={key2}>{event.title}</MenuItem>)
+                                                                            ? (
+                                                                                <div>
+                                                                                    <MenuItem value={key2}>{event.title}</MenuItem>
+                                                                                    <hr></hr>
+                                                                                    </div>)
                                                                             : (null)
                                                                     )))
                                                                     : (null)

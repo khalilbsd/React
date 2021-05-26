@@ -58,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
         textTransform:'capitalize',
         '&:hover':{
             color:'black'
-        }
+        },
+        
     },
     deny:{
         backgroundColor:"#f50057",
@@ -212,7 +213,7 @@ export default function MeetingCard({ _id, account, meeting, event }) {
                                             ? (
                                                 <Button
                                                     variant="contained"
-                                                    color="primary"
+                                                    className={classes.join}
                                                     onClick={() => {
                                                         window.location.href = `http://localhost:3001/${meeting.location}`;
                                                     }}>Join Meeting</Button>

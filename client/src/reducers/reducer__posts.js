@@ -4,6 +4,8 @@ const reducer__posts = (posts = [], action) => {
             return action.payload;
             case 'FETCH VERIFIED':
                 return action.payload;
+                case 'FETCH ADMIN':
+                    return action.payload;
         case 'FETCH MY POSTS':
             return action.payload; //posts.map((post)=>post.account === action.payload._id?action.payload:posts);
         case 'FETCH ONE POST':

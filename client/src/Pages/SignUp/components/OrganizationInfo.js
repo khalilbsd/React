@@ -102,7 +102,6 @@ export default function OrganizationInfo({ data, setData }) {
                                 ...data,
                                 description: e.target.value
                             });
-                            console.log(e.target.value);
                         }}
                     />
                 </Grid>
@@ -116,7 +115,6 @@ export default function OrganizationInfo({ data, setData }) {
                                 ...data,
                                 type: e.target.value
                             });
-                            console.log(e.target.value);
                         }
                         }
                     >
@@ -133,7 +131,6 @@ export default function OrganizationInfo({ data, setData }) {
                                 ...data,
                                 logo: base64
                             });
-                            console.log(base64);
                         }
                         }
                     />

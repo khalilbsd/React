@@ -96,7 +96,7 @@ function App() {
 
                 <AdminRoute
                     exact="exact"
-                    path="/dashposts"
+                    path="/dashposts/:id"
                     component={DashPosts}
                     isAuth={isAuth}
                     role={role} />
@@ -165,8 +165,8 @@ function App() {
                     verified_by_admin={verified_by_admin} />
             </Switch>
             <Footer
-                title="Footer"
-                description="Something here to give the footer a purpose!" />
+                title="Agency for the Promotion of Industry and Innovation"
+                description="This site is under the APII's copy rights 2021" />
 
         </Router>
     );

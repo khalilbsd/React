@@ -10,7 +10,17 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {action__patch__participants} from '../../../../actions/action__participants';
 import Grid from '@material-ui/core/Grid';
+//redux icon
+import BusinessIcon from '@material-ui/icons/Business';
+import EventIcon from '@material-ui/icons/Event';
+//dilaog
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -35,32 +45,56 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(1),
         paddingBottom: theme.spacing(1)
     },
-   
+
     btn_validate: {
-        marginTop:'25%',
+        marginTop: '25%',
         backgroundColor: '#2196F3',
-        boxShadow: '0 3px 10px 2px rgba(33, 203, 243, .3)',
         textAlign: 'center',
         border: 'none',
         width: '90%',
         float: 'right',
         borderRadius: 3,
         color: 'white',
-        outline: 'none'
+        outline: 'none',
+        textTransform: 'capitalize'
     },
+    btn_unvalidate: {
+        marginTop: '25%',
+        backgroundColor: '#f50057',
+        textAlign: 'center',
+        border: 'none',
+        width: '90%',
+        float: 'right',
+        borderRadius: 3,
+        color: 'white',
+        outline: 'none',
+        textTransform: 'capitalize'
+    },
+    btn: {
+        color: '#2196F3',
+        textTransform: 'capitalize'
+    }
 }));
 
-export default function ParticipantCard({account, participant}) {
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props}/>;
+});
+export default function ParticipantCard({account, participant, event}) {
     const classes = useStyles();
     const theme = useTheme();
     const dispatch = useDispatch();
+    const [open, setOpen] = React.useState(false);
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     ////begin participant update
-    const [updatedParticipant, setUpdatedParticipant] = useState(
-        {verified: ""}
-    );
+    const [updatedParticipant, setUpdatedParticipant] = useState({verified: ""});
     const [participantId, setParticipantId] = useState("");
-
     useEffect(() => {
         if (updatedParticipant.verified && participantId) {
             dispatch(action__patch__participants(participantId, updatedParticipant)).then(
@@ -82,12 +116,51 @@ export default function ParticipantCard({account, participant}) {
                     <Grid item="item" xs={10}>
                         <div className={classes.details}>
                             <CardContent className={classes.content}>
-                                <Typography component="h5" variant="h5">
-                                    {account.organization.name}
+                                {
+                                    participant.verified === "false"
+                                        ? <Typography component="h5" variant="h5">
+
+                                                {account.organization.representative.first_name + " " + account.organization.representative.last_name}
+                                                &nbsp; is asking to join an event
+                                            </Typography>
+                                        : <Typography component="h5" variant="h5">
+
+                                                {account.organization.representative.first_name + " " + account.organization.representative.last_name}
+                                                &nbsp; has joind an event
+                                            </Typography>
+                                }
+
+                                <Typography variant="subtitle1" color="textSecondary">
+                                    <BusinessIcon/>
+                                    company name:&nbsp; &nbsp;&nbsp;{account.organization.name}
                                 </Typography>
                                 <Typography variant="subtitle1" color="textSecondary">
-                                    {account.organization.representative.first_name + " " + account.organization.representative.last_name}
+                                    <EventIcon/>
+                                    event name: &nbsp; &nbsp;&nbsp; {event.title}
                                 </Typography>
+                                <Button variant="outlined" className={classes.btn} onClick={handleClickOpen}>
+                                    Show his answer
+                                </Button>
+                                <Dialog
+                                    open={open}
+                                    TransitionComponent={Transition}
+                                    keepMounted="keepMounted"
+                                    onClose={handleClose}
+                                    aria-labelledby="alert-dialog-slide-title"
+                                    aria-describedby="alert-dialog-slide-description">
+                                    <DialogTitle id="alert-dialog-slide-title">{`${account.organization.representative.first_name} answer `}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="answer">
+                                            {participant.desc}
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+
+                                        <Button onClick={handleClose} className={classes.btn} color="primary">
+                                            Close
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                             </CardContent>
                         </div>
                     </Grid>
@@ -114,7 +187,7 @@ export default function ParticipantCard({account, participant}) {
 
                                     <Button
                                         variant="contained"
-                                        className={classes.btn_validate}
+                                        className={classes.btn_unvalidate}
                                         onClick={() => {
                                             setUpdatedParticipant({
                                                 ...updatedParticipant,

@@ -15,11 +15,12 @@ import Paper from '@material-ui/core/Paper';
 import MainListItems from './listItems';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const drawerWidth = 240;
+const drawerWidth = 290;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerPaper: {
         position: 'relative',
-        whiteSpace: 'nowrap',
+        //whiteSpace: 'nowrap',
         width: drawerWidth,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
@@ -70,30 +71,12 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
+       width: theme.spacing(7),
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(9),
         },
     },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-    },
-    container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-    },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-    },
-    fixedHeight: {
-        height: 240,
-    },
+   
 }));
 
 export default function DashDrawer() {

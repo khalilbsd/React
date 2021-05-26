@@ -1,31 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { withRouter } from "react-router-dom";
+import React, {useState, useEffect} from 'react';
+import {withRouter} from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import SettingsIcon from '@material-ui/icons/Settings';
-import Paper from '@material-ui/core/Paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { action__get__one__account } from '../../actions/action__accounts';
+import {useDispatch, useSelector} from 'react-redux';
+import {action__get__one__account} from '../../actions/action__accounts';
 import FileBase from 'react-file-base64';
-
-import { action__patch__accounts } from '../../actions/action__accounts';
-
+import Card from '@material-ui/core/Card';
+import {action__patch__accounts} from '../../actions/action__accounts';
+//icon
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import BusinessIcon from '@material-ui/icons/Business';
+import PersonIcon from '@material-ui/icons/Person';
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
+    root:{
+        width:400,
     },
     avatar: {
-        margin: theme.spacing(1),
+      marginLeft:'48.3%',
+        marginBottom:"1%",
         backgroundColor: theme.palette.secondary.main
     },
+        icon:{
+            width:50,
+            height:50
+        },
     form: {
         width: '100%',
         marginTop: theme.spacing(3)
@@ -36,34 +41,30 @@ const useStyles = makeStyles((theme) => ({
     card: {
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
-        padding: theme.spacing(2),
-        [
-            theme
-                .breakpoints
-                .up(600 + theme.spacing(3) * 2)
-        ]: {
-            marginTop: theme.spacing(6),
-            marginBottom: theme.spacing(6),
-            padding: theme.spacing(3)
-        }
+        width: '100%'
     },
     layout: {
+        marginTop:"5%",
         width: 'auto',
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
-        [
-            theme
-                .breakpoints
-                .up(600 + theme.spacing(2) * 2)
-        ]: {
-            width: 600,
-            marginLeft: 'auto',
-            marginRight: 'auto'
-        }
-    }
+        // marginLeft: theme.spacing(2),
+        //marginLeft: '5%',
+        //marginRight: '5%'
+
+    },
+    input:{
+        marginTop:'5%',
+        marginBottom:'5%',
+        marginLeft:'5%',
+        marginRight:'5%',
+        width:'90%'
+    },
+    header:{
+       // textAlign:'center',
+       
+    }   
 }));
 
-function Settings({ _id }) {
+function Settings({_id}) {
     const classes = useStyles();
 
     const [updatedAccount, setUpdatedAccount] = useState({
@@ -94,7 +95,6 @@ function Settings({ _id }) {
 
     const store__account = useSelector((state) => state.reducer__accounts);
     console.log(store__account);
-
 
     //const _id = useSelector((state) => state.reducer__login);
 
@@ -146,172 +146,208 @@ function Settings({ _id }) {
 
     return (
         <div className={classes.layout}>
-            <Paper className={classes.card}>
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
-                    <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <SettingsIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Settings
-                        </Typography>
+             <Typography component="h1"  align="center" variant="h5">
+            <Avatar className={classes.avatar}>
+                <SettingsIcon/>
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                Settings
+            </Typography>
+            </Typography>
+           
 
-                        {/*<img
+            <Container component="main" maxWidth="lg">
+                <CssBaseline/>
+                <div className={classes.paper}>
+
+                    {/*<img
                                         src={store__account.organization.logo}
                                         alt="Organization logo"
                                         width="100"
-                        height="100"/>*/}
+                        height="100"/>*/
+                    }
 
-                        <form className={classes.form} noValidate="noValidate" onSubmit={handleForm}>
-                            <Grid container="container" spacing={2}>
-                                <Grid item="item" xs={12}>
-                                    <Typography component="h2" variant="h5">
+                    <form className={classes.form} noValidate="noValidate" onSubmit={handleForm}>
+                        <Grid container="container" spacing={2}>
+                            <Grid item="item" xs="xs">
+
+                                <Card className={classes.root}>
+                                <Typography component="h1" align="center" variant="h5">
+                                       <AccountCircleIcon color="secondary" className={classes.icon}/>
+                                    </Typography>
+                                    <Typography component="h2" align="center" variant="h5">
                                         Account
                                     </Typography>
-                                </Grid>
-
-                                {
-                                    Object
-                                        .entries(store__account)
-                                        .map(
-                                            ([
-                                                key, value
-                                            ], i) => account.includes(key)
+                                   
+                                  
+                                    {
+                                        Object
+                                            .entries(store__account)
+                                            .map(
+                                                ([
+                                                    key, value
+                                                ], i) => account.includes(key)
                                                     ? (null)
-                                                    : (
-                                                        <Grid item="item" xs={12} key={i}>
-                                                            <TextField
-                                                                variant="outlined"
-                                                                fullWidth="fullWidth"
-                                                                id={key}
-                                                                label={key}
-                                                                name={key}
-                                                                autoComplete={key}
-                                                                type={key}
-                                                                defaultValue={value}
-                                                                onChange={(e) => setUpdatedAccount({
-                                                                    ...updatedAccount,
-                                                                    key: e.target.value
-                                                                })}
-                                                            />
-                                                        </Grid>
-                                                    )
-                                        )
-                                }
-                                <Grid item="item" xs={12}>
-                                    <Typography component="h2" variant="h5">
+                                                    : key === "seen"
+                                                        ? null
+                                                        : (
+
+                                                            <Grid item="item" xs={12} key={i}>
+                                                                <TextField
+                                                                   className={classes.input}
+                                                                    variant="outlined"
+                                                                    fullWidth="fullWidth"
+                                                                    id={key}
+                                                                    label={key}
+                                                                    name={key}
+                                                                    autoComplete={key}
+                                                                    type={key}
+                                                                    defaultValue={value}
+                                                                    onChange={(e) => setUpdatedAccount({
+                                                                        ...updatedAccount,
+                                                                        key: e.target.value
+                                                                    })}/>
+                                                            </Grid>
+                                                        )
+                                            )
+                                    }
+                                </Card>
+                            </Grid>
+
+                            <Grid item="item" xs="xs">
+                                <Card className={classes.root}>
+                                    <Typography align="center" component="h1" variant="h5">
+                                        <BusinessIcon color="secondary" className={classes.icon}/>
+                                    </Typography>   
+                                    <Typography align="center" component="h2" variant="h5">
                                         Organization
                                     </Typography>
-                                </Grid>
-                                <Grid item="item" xs={12} container="container" spacing={1}>
-                                    <Grid item="item" xs={4}>
-                                        <p>Organization Logo</p>
+
+                                    <Grid item="item" xs={12} container="container" spacing={1} className={classes.input}>
+                                        <Grid item="item" xs={4}>
+                                            <p>Organization Logo</p>
+                                        </Grid>
+                                        <Grid item="item" xs={8}>
+                                            <FileBase
+                                                type="File"
+                                                multiple={false}
+                                                onDone={({base64}) => setUpdatedAccount({
+                                                    ...updatedAccount,
+                                                    ...organization,
+                                                    logo: base64
+                                                })}/>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item="item" xs={8}>
-                                        <FileBase
-                                            type="File"
-                                            multiple={false}
-                                            onDone={({ base64 }) => setUpdatedAccount({
-                                                ...updatedAccount,
-                                                ...organization,
-                                                logo: base64
-                                            })} />
-                                    </Grid>
-                                </Grid>
-                                {
-                                    Object
-                                        .entries(store__account)
-                                        .map(
-                                            ([
-                                                key, value
-                                            ], i) => organization.includes(key)
+                                    {
+                                        Object
+                                            .entries(store__account)
+                                            .map(
+                                                ([
+                                                    key, value
+                                                ], i) => organization.includes(key)
                                                     ? (null)
                                                     : (Object.entries(value).map(
                                                         ([
                                                             key2, value2
                                                         ], i2) => organization2.includes(key2)
-                                                                ? (null)
-                                                                : (
-                                                                    <Grid item="item" xs={12} key={i2}>
-                                                                        <TextField
-                                                                            variant="outlined"
-                                                                            fullWidth="fullWidth"
-                                                                            id={key2}
-                                                                            label={key2}
-                                                                            name={key2}
-                                                                            autoComplete={key2}
-                                                                            type={key2}
-                                                                            defaultValue={value2}
-                                                                            onChange={(e) => setUpdatedAccount({
-                                                                                ...updatedAccount,
-                                                                                key: e.target.value
-                                                                            })}
-                                                                        />
-                                                                    </Grid>
-                                                                )
+                                                            ? (null)
+                                                            :
+                                                            key2==="0" || key2==="1" || key2==="2" || key2==="3"?
+                                                            null
+                                                            :
+                                                            (
+                                                                <Grid item="item" xs={12} key={i2}>
+                                                                    <TextField
+                                                                        variant="outlined"
+                                                                        fullWidth="fullWidth"
+                                                                        id={key2}
+                                                                        label={key2}
+                                                                        name={key2}
+                                                                        autoComplete={key2}
+                                                                        type={key2}
+                                                                        defaultValue={value2}
+                                                                        className={classes.input}
+                                                                        onChange={(e) => setUpdatedAccount({
+                                                                            ...updatedAccount,
+                                                                            key: e.target.value
+                                                                        })}/>
+                                                                </Grid>
+                                                            )
                                                     ))
-                                        )
-                                }
-                                <Grid item="item" xs={12}>
-                                    <Typography component="h2" variant="h5">
+                                            )
+                                    }
+                                </Card>
+                            </Grid>
+
+                            <Grid item="item" xs="xs">
+                                <Card className={classes.root}>
+                                <Typography align="center" component="h1" variant="h5">
+                                        <PersonIcon color="secondary" className={classes.icon}/>
+                                    </Typography>   
+                                    <Typography component="h2" variant="h5" align="center">
                                         Representative
                                     </Typography>
-                                </Grid>
-                                {
-                                    Object
-                                        .entries(store__account)
-                                        .map(
-                                            ([
-                                                key, value
-                                            ], i) => organization.includes(key)
+                                    {
+                                        Object
+                                            .entries(store__account)
+                                            .map(
+                                                ([
+                                                    key, value
+                                                ], i) => organization.includes(key)
                                                     ? (null)
                                                     : (Object.entries(value).map(
                                                         ([
                                                             key2, value2
                                                         ], i2) => representative.includes(key2)
-                                                                ? (null)
-                                                                : (Object.entries(value2).map(
-                                                                    ([
-                                                                        key3, value3
-                                                                    ], i3) => representative2.includes(key3)
-                                                                            ? (null)
-                                                                            : (
-                                                                                <Grid item="item" xs={12} key3={i}>
-                                                                                    <TextField
-                                                                                        variant="outlined"
-                                                                                        fullWidth="fullWidth"
-                                                                                        id={key3}
-                                                                                        label={key3}
-                                                                                        name={key3}
-                                                                                        autoComplete={key3}
-                                                                                        type={key3}
-                                                                                        defaultValue={value3}
-                                                                                        onChange={(e) => setUpdatedAccount({
-                                                                                            ...updatedAccount,
-                                                                                            key: e.target.value
-                                                                                        })}
-                                                                                    />
-                                                                                </Grid>
-                                                                            )
-                                                                ))
+                                                            ? (null)
+                                                            : (Object.entries(value2).map(
+                                                                ([
+                                                                    key3, value3
+                                                                ], i3) => representative2.includes(key3)
+                                                                    ? (null)
+                                                                    :
+                                                                    key3==="0" || key3==="1" || key3==="2" || key3==="3"?
+                                                                    null
+                                                                    :
+                                                                    (
+                                                                        <Grid item="item" xs={12} key3={i}>
+                                                                            <TextField
+                                                                                variant="outlined"
+                                                                                fullWidth="fullWidth"
+                                                                                id={key3}
+                                                                                label={key3}
+                                                                                name={key3}
+                                                                                autoComplete={key3}
+                                                                                type={key3}
+                                                                                defaultValue={value3}
+                                                                                className={classes.input}
+                                                                                onChange={(e) => setUpdatedAccount({
+                                                                                    ...updatedAccount,
+                                                                                    key: e.target.value
+                                                                                })}/>
+                                                                        </Grid>
+                                                                    )
+                                                            ))
                                                     ))
-                                        )
-                                }
+                                            )
+                                    }
+                                </Card>
                             </Grid>
 
-                            <Button
-                                type="submit"
-                                fullWidth="fullWidth"
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}>
-                                Confirm Modifications
-                            </Button>
-                        </form>
-                    </div>
-                </Container>
-            </Paper>
+                        </Grid>
+
+                        <Button
+                            type="submit"
+                            fullWidth="fullWidth"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}>
+                            Confirm Modifications
+                        </Button>
+                    </form>
+                </div>
+            </Container>
+
         </div>
     );
 }

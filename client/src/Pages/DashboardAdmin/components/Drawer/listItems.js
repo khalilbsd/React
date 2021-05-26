@@ -1,23 +1,31 @@
 import React, {useState, useEffect} from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
-import EventIcon from '@material-ui/icons/Event';
+
 import {Link} from "react-router-dom"
 import {makeStyles} from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
+//list
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+// icon
 import ShareIcon from '@material-ui/icons/Share';
+import PeopleIcon from '@material-ui/icons/People';
+import EventIcon from '@material-ui/icons/Event';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+
+//redux
+import {action__get__events} from '../../../../actions/action__events'
 import {action__get__posts} from '../../../../actions/action__posts';
 import {action__get__accounts} from '../../../../actions/action__accounts';
 import {action__get__participants} from '../../../../actions/action__participants';
-
 import {useSelector, useDispatch} from 'react-redux';
 import {action__patch__posts} from '../../../../actions/action__posts';
 import {action__patch__accounts} from '../../../../actions/action__accounts';
 import {action__patch__participants} from '../../../../actions/action__participants';
 import {useHistory} from "react-router-dom";
+import { LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -27,19 +35,23 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             color: '#2196F3'
         }
+    },
+    nested: {
+        paddingLeft: theme.spacing(4)
     }
-
 }));
 
 const MainListItems = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     let history = useHistory();
-
+    const [open, setOpen] = React.useState(false);
     const [invisibleAccounts, setInvisibleAccounts] = useState(true);
     const [invisiblePosts, setInvisiblePosts] = useState(true);
     const [invisibleParticipants, setInvisibleParticipants] = useState(true);
-
+    const handleClick = () => {
+        setOpen(!open);
+    };
     useEffect(() => {
         dispatch(action__get__posts());
     }, [dispatch]);
@@ -55,6 +67,10 @@ const MainListItems = () => {
     }, [dispatch]);
     const store__participants = useSelector((state) => state.reducer__participants);
 
+    useEffect(()=>{
+        dispatch(action__get__events());
+    },[dispatch])
+    const events = useSelector((state) => state.reducer__events);
     useEffect(() => {
         store__posts.map((post, key) => (
             post.seen == "false"
@@ -92,18 +108,20 @@ const MainListItems = () => {
 
     useEffect(() => {
         if (updatedAccount.seen == "true") {
-                store__accounts.map((account, key) => (dispatch(action__patch__accounts(account._id, updatedAccount))))}
-        },
-        [updatedAccount.seen]
-    );
+            store__accounts.map(
+                (account, key) => (dispatch(action__patch__accounts(account._id, updatedAccount)))
+            )
+        }
+    }, [updatedAccount.seen]);
 
     useEffect(() => {
         if (updatedParticipant.seen == "true") {
-                store__participants.map((participant, key) => (dispatch(action__patch__participants(participant._id, updatedParticipant))))}
+            store__participants.map(
+                (participant, key) => (dispatch(action__patch__participants(participant._id, updatedParticipant)))
+            )
+        }
 
-        },
-        [updatedParticipant.seen]
-    );
+    }, [updatedParticipant.seen]);
 
     const handleUpdatePosts = (e) => {
         //e.preventDefault();
@@ -160,8 +178,12 @@ const MainListItems = () => {
             {
                 invisiblePosts == false
                     ? (
-                        <Link to="/dashposts" className={classes.link}>
-                            <ListItem button="button" onClick={handleUpdatePosts}>
+                        <List>
+
+                            <ListItem
+                                button="button"
+                                onClick={handleUpdatePosts,
+                                handleClick}>
                                 <ListItemIcon>
                                     <Badge color="secondary" variant="dot" invisible={false}>
                                         <ShareIcon/>
@@ -169,11 +191,50 @@ const MainListItems = () => {
                                 </ListItemIcon>
                                 <ListItemText primary="Posts"/>
                             </ListItem>
-                        </Link>
+
+                            <Collapse in={open} timeout="auto" unmountOnExit="unmountOnExit">
+                                <List component="div" disablePadding="disablePadding">
+                                <Link to={`/dashposts/generalmarketplace`} className={classes.link}>
+                                    <ListItem button="button" className={classes.nested}>
+                                            <ListItemIcon>
+                                                <EventIcon/>
+                                            </ListItemIcon>
+                                            <ListItemText primary="General Marketplace Posts"/>
+                                        </ListItem>
+                                        </Link>
+                                        {
+                                            !events?
+                                            null
+                                            :events.length<0?
+                                            <LinearProgress className={classes.loader}/>
+                                            :
+                                            events.map((event,key)=>
+                                            <Link to={`/dashposts/${event._id}`} className={classes.link}>
+                                            <ListItem button="button" className={classes.nested}>
+                                            <ListItemIcon>
+                                                <EventIcon/>
+                                            </ListItemIcon>
+                                            <ListItemText primary={event.title}/>
+                                        </ListItem>
+                                        </Link>
+                                            )
+                                        }
+                                      
+                                   
+                                </List>
+                            </Collapse>
+
+                        </List>
+
                     )
                     : (
-                        <Link to="/dashposts" className={classes.link}>
-                            <ListItem button="button" onClick={handleUpdatePosts}>
+                        <List>
+
+                        
+                            <ListItem
+                                button="button"
+                                onClick={handleUpdatePosts,
+                                handleClick}>
                                 <ListItemIcon>
                                     <Badge color="secondary" variant="dot" invisible={true}>
                                         <ShareIcon/>
@@ -181,11 +242,43 @@ const MainListItems = () => {
                                 </ListItemIcon>
                                 <ListItemText primary="Posts"/>
                             </ListItem>
-                        </Link>
+                            <Collapse in={open} timeout="auto" unmountOnExit="unmountOnExit">
+                                <List component="div" disablePadding="disablePadding">
+                                <Link to={`/dashposts/generalmarketplace`} className={classes.link}>
+                                    <ListItem button="button" className={classes.nested}>
+                                            <ListItemIcon>
+                                                <EventIcon/>
+                                            </ListItemIcon>
+                                            <ListItemText primary="General Marketplace Posts"/>
+                                        </ListItem>
+                                        </Link>
+                                        {
+                                            !events?
+                                            null
+
+                                            :events.length<0?
+                                            <LinearProgress className={classes.loader}/>
+                                            :
+                                            events.map((event,key)=>
+                                            <Link to={`/dashposts/${event._id}`} className={classes.link}>
+                                            <ListItem button="button" className={classes.nested}>
+                                            <ListItemIcon>
+                                                <EventIcon/>
+                                            </ListItemIcon>
+                                            <ListItemText primary={event.title}/>
+                                        </ListItem>
+                                        </Link>
+                                            )
+                                        }
+                                      
+                                   
+                                </List>
+                            </Collapse>
+                        </List>
                     )
             }
 
-{
+            {
                 invisibleParticipants == false
                     ? (
                         <Link to="/dashparticipants" className={classes.link}>

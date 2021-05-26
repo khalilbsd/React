@@ -82,3 +82,18 @@ export const get__verified__posts = async (req, res) => {
     }
 }
 
+
+export const get__admin__posts = async (req, res) => {
+    const {id:place_id} = req.params;
+    try {
+        const posts = await model__posts.find({"place_id": place_id});
+        res
+            .status(200)
+            .json(posts);
+    } catch (error) {
+        res
+            .status(404)
+            .json({ message: error.message });
+    }
+}
+

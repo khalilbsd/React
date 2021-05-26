@@ -304,7 +304,7 @@ export default function EventCard({event}) {
                         
                         //aria-describedby="alert-dialog-slide-description">
                     >
-                        <DialogTitle id="alert-dialog-slide-title">{"Are you sure you want to deactivate "}{event.title}
+                        <DialogTitle id="alert-dialog-slide-title">{"Are you sure you want to deactivate "}" {event.title} "
                             ?</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
@@ -330,7 +330,7 @@ export default function EventCard({event}) {
                         fullWidth="lg"
                         keepMounted="keepMounted"
                         onClose={handleActivateDialogClose}>
-                        <DialogTitle id="alert-dialog-slide-title">{"Are you sure you want to activate "}{event.title}
+                        <DialogTitle id="alert-dialog-slide-title">{"Are you sure you want to activate "}" {event.title} " 
                             ?</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
@@ -9,19 +10,18 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {Fullscreen} from '@material-ui/icons';
 import {createMuiTheme} from '@material-ui/core/styles';
-import {CircularProgress} from '@material-ui/core';
+import {CircularProgress, LinearProgress} from '@material-ui/core';
 import SendedInvitation from './suit components/SendedInvitation'
 import Incoming__invitation from './suit components/Incoming__invitation';
-import Post__request from './suit components/Post__request';
 import {withRouter} from "react-router-dom";
 
+//componeents
+import Empty from './suit components/Empty';
 /*action*/
-
 import {action__get__invitations} from '../actions/action__invitations.js'
 /*redux*/
 
-import {useSelector} from 'react-redux';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 /*css*/
 import '../css/suit.css';
 function TabPanel(props) {
@@ -63,10 +63,10 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
     root: {
         width: Fullscreen,
-        marginTop: 40,
+        marginTop: 40
     },
-    tabs:{
-        color:'black',
+    tabs: {
+        color: 'black'
     }
 }));
 
@@ -74,7 +74,7 @@ const Suit = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
-
+    const id = useSelector((state) => state.reducer__login)
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -82,11 +82,13 @@ const Suit = () => {
     const handleChangeIndex = (index) => {
         setValue(index);
     };
-
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(action__get__invitations());
+    }, [dispatch]);
     /*geting info form database */
-
-    const store__invi = useSelector((state) => state.reducer__invitations);
-
+    const invitations = useSelector((state) => state.reducer__invitations);
+    console.log(id[0])
     return (
         <div className={classes.root}>
             <AppBar
@@ -96,17 +98,16 @@ const Suit = () => {
                     boxShadow: 'none'
                 }}>
                 <Tabs
-                className={classes.tabs}
+                    className={classes.tabs}
                     value={value}
                     onChange={handleChange}
-                    indicatorColor="primary"
+                    indicatorColor="secondary"
                     textColor="white"
                     variant="full Width"
                     centered="centered">
                     <Tab label="Recieved invitation " {...a11yProps(0)}/>
 
                     <Tab label="Sent invitation" {...a11yProps(1)}/>
-                    <Tab label="Post Request" {...a11yProps(2)}/>
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -115,15 +116,34 @@ const Suit = () => {
                     : 'x'}
                 index={value}
                 onChangeIndex={handleChangeIndex}>
-                  
+
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                    <Incoming__invitation/>
+                    {
+                        !invitations
+                            ? <LinearProgress className={classes.loader}/>
+                            : invitations.length < 0
+                                ? <Empty title="you don't have any invitations yet"/>
+                                : invitations.map(
+                                    (invitation, key) => invitation.offerer_id === id[0]
+                                        ? <Incoming__invitation invitation={invitation}/>
+                                        : null
+                                )
+                    }
+
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <SendedInvitation/>
-                </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                    <Post__request/>
+                    {
+                        !invitations
+                            ? <LinearProgress className={classes.loader}/>
+                            : invitations.length < 0
+                                ? <Empty title="you didn't send any invitations yet"/>
+                                : invitations.map(
+                                    (invitation, key) => invitation.requester_id === id[0]
+                                        ? <SendedInvitation invitation={invitation}/>
+                                        : null
+                                )
+                    }
+
                 </TabPanel>
             </SwipeableViews>
         </div>

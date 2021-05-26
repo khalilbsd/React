@@ -32,11 +32,10 @@ const useStyles = makeStyles((theme) => ({
 
     },
     participated_card: {
-      
+
         minHeight: 92,
         backgroundColor: '#64dd17',
-        marginBottom: 10,
-        
+        marginBottom: 10
     },
     pending_card: {
         backgroundColor: '#ff9800',
@@ -71,19 +70,19 @@ const useStyles = makeStyles((theme) => ({
     reason: {
         width: 500
     },
-    textarea:{
-        '&:focus':{
-            outline:'none',
-            outlineOffset:'none',
-            border:'none'
+    textarea: {
+        '&:focus': {
+            outline: 'none',
+            outlineOffset: 'none',
+            border: 'none'
         }
     },
-    join_card:{
+    join_card: {
         minHeight: 92,
         backgroundColor: '#2196F3',
         marginBottom: 11
     },
-    event_ma:{
+    event_ma: {
         color: '#ffff',
         verticalAlign: 'middle',
         display: 'inline',
@@ -91,12 +90,19 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 25,
         fontSize: 20
     },
-    link:{
-        textDecoration:'none',
-        color:'white',
-        '&:hover':{
-            color:'white',
+    link: {
+        textDecoration: 'none',
+        color: 'white',
+        '&:hover': {
+            color: 'white'
         }
+    },
+    btn_send: {
+        color: '#2196F3',
+
+    },
+    close: {
+        color: '#f50057'
     }
 }));
 
@@ -113,11 +119,11 @@ export default function Participate(props) {
     );
 
     const id = useSelector((state) => state.reducer__login);
-   
+
     useEffect(() => {
         dispatch(action__get__my__particiption(id[0], event_id))
     }, [event_id]);
-    const verify = useSelector((state) => state.reducer__participants);   
+    const verify = useSelector((state) => state.reducer__participants);
     const participation = () => {
         id[0]
             ? (
@@ -140,26 +146,25 @@ export default function Participate(props) {
         handleClose();
     }
     return (
-       
-                verify[0]
-                    ? (
-                            verify[0].verified=== "false"
-                            ? <Card className={classes.pending_card}>
-                            <Grid container="container" spacing={1}>
-                                <div>
-                                    <CardActions>
-                                        <div className={classes.status}>
-                                            <HourglassEmptyIcon/>
-                                            <span>Pending...
-                                            </span>
-                                        </div>
-                                    </CardActions>
-                                </div>
-                            </Grid>
-                        </Card>
-                            :
-                            <div>                           
-                            <Card className={classes.participated_card}>
+
+        verify[0]
+            ? (
+                    verify[0].verified === "false"
+                    ? <Card className={classes.pending_card}>
+                        <Grid container="container" spacing={1}>
+                            <div>
+                                <CardActions>
+                                    <div className={classes.status}>
+                                        <HourglassEmptyIcon/>
+                                        <span>Pending...
+                                        </span>
+                                    </div>
+                                </CardActions>
+                            </div>
+                        </Grid>
+                    </Card>
+                    : <div>
+                        <Card className={classes.participated_card}>
                             <Grid container="container" spacing={1}>
                                 <div>
                                     <CardActions>
@@ -171,104 +176,107 @@ export default function Participate(props) {
                                     </CardActions>
                                 </div>
                             </Grid>
-                        </Card> 
+                        </Card>
                         <Card className={classes.join_card}>
                             <Grid container="container" spacing={1}>
                                 <div>
                                     <CardActions>
-                                       
+
                                         <div className={classes.event_ma}>
-                                        <Link to={`/marketplace/${event_id}`} className={classes.link}>
-                                            Join Event Marketplace
+                                            <Link to={`/marketplace/${event_id}`} className={classes.link}>
+                                                Join Event Marketplace
                                             </Link>
                                         </div>
-                                       
+
                                     </CardActions>
                                 </div>
                             </Grid>
-                        </Card> 
+                        </Card>
                         <Card className={classes.join_card}>
                             <Grid container="container" spacing={1}>
                                 <div>
                                     <CardActions>
-                                       
+
                                         <div className={classes.event_ma}>
-                                        <Link to={`/participants/${event_id}`} className={classes.link}>
-                                            Check Event Participants
+                                            <Link to={`/participants/${event_id}`} className={classes.link}>
+                                                Check Event Participants
                                             </Link>
                                         </div>
-                                       
+
                                     </CardActions>
                                 </div>
                             </Grid>
-                        </Card> 
-                        </div>
+                        </Card>
+                    </div>
 
-                        )
-                    : (
-                        <div>
+                )
+            : (
+                <div>
 
-                            <Modal
-                                show={show}
-                                onHide={handleClose}
-                                size="lg"
-                                aria-labelledby="contained-modal-title-vcenter"
-                                centered="centered">
+                    <Modal
+                        show={show}
+                        onHide={handleClose}
+                        size="lg"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered="centered">
 
-                                <Form autoComplete="off" noValidate="noValidate" onSubmit={sendRequest}>
-                                    <Modal.Body>
+                        <Form autoComplete="off" noValidate="noValidate" onSubmit={sendRequest}>
+                            <Modal.Body>
 
-                                        <Typography component="h1" align="center" variant="h5">
-                                            Why you want to Participate in this event
-                                        </Typography>
-                                        <Form.Row>
-                                            <Form.Group as={Col} className={classes.parent} controlId="title">
-                                                <Form.Label>Reason</Form.Label>
-                                                <Form.Control as="textarea"
-                                                onChange={(e) => setReq({
-                                                    ...particip_req,
-                                                    desc: e.target.value
-                                                })}
-                                                className="textarea" rows={3}/>
-                                            </Form.Group>
-                                        </Form.Row>
+                                <Typography component="h1" align="center" variant="h5">
+                                    Why you want to Participate in this event
+                                </Typography>
+                                <Form.Row>
+                                    <Form.Group as={Col} className={classes.parent} controlId="title">
+                                        <TextField
+                                            required="required"
+                                            multiline="multiline"
+                                            id="description"
+                                            name="description"
+                                            label="Description"
+                                            fullWidth="fullWidth"
+                                            autoComplete="description"
+                                            onChange={(e) => setReq({
+                                                ...particip_req,
+                                                desc: e.target.value
+                                            })}/>
+                                      
+                                    </Form.Group>
+                                </Form.Row>
 
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button type="submit" className={classes.btn_send}>
-                                            <AddCircleOutlineIcon/>
-                                            Participate
-                                        </Button>
-                                        <Button variant="secondary" onClick={handleClose}>
-                                            Close
-                                        </Button>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button type="submit" className={classes.btn_send}>
+                                    <AddCircleOutlineIcon/>
+                                    Participate
+                                </Button>
+                                <Button variant="secondary" className={classes.close} onClick={handleClose}>
+                                    Close
+                                </Button>
 
-                                    </Modal.Footer>
+                            </Modal.Footer>
 
-                                </Form>
-                            </Modal>
-                            <Card className={classes.card}>
-                                <CardActionArea onClick={participation} className={classes.action}>
-                                    <Grid container="container" spacing={1}>
-                                        <div>
+                        </Form>
+                    </Modal>
+                    <Card className={classes.card}>
+                        <CardActionArea onClick={participation} className={classes.action}>
+                            <Grid container="container" spacing={1}>
+                                <div>
 
-                                            <CardActions>
-                                                <div className={classes.non_status}>
-                                                    <EventSeatIcon/>
-                                                    <span>Participate
-                                                    </span>
-                                                </div>
-
-                                            </CardActions>
+                                    <CardActions>
+                                        <div className={classes.non_status}>
+                                            <EventSeatIcon/>
+                                            <span>Participate
+                                            </span>
                                         </div>
-                                    </Grid>
-                                </CardActionArea>
-                            </Card>
-                        </div>
-                    )
-            
 
-      
+                                    </CardActions>
+                                </div>
+                            </Grid>
+                        </CardActionArea>
+                    </Card>
+                </div>
+            )
 
     );
 }

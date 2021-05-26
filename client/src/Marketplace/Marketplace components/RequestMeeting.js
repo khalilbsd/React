@@ -1,65 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import {useParams} from "react-router-dom";
+import {action__post__meetings} from '../../actions/action__meetings';
+
+import React, {useState, useEffect} from 'react';
 import '../../css/invi.css';
 import Modal from 'react-bootstrap/Modal';
-import { Button } from 'react-bootstrap';
-import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
+import {Button} from 'react-bootstrap';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import TextField from '@material-ui/core/TextField';
 import Form from 'react-bootstrap/Form';
 //redux
-import { useDispatch } from 'react-redux';
-import { action__post__invitations } from '../../actions/action__invitations.js';
-import { action__get__invitations } from '../../actions/action__invitations';
-import { useSelector } from 'react-redux';
-import { action__verify__my__invitation } from '../../actions/action__invitations';
+import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-
-
-const Invitation = ({ invite }) => {
+const RequestMeeting = ({invite}) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const id = useSelector((state) => state.reducer__login)
-    //const [nb, setNb] = useState({sent: true, send: true})
-    const [request, setInvi] = useState(
-        {
-            description: "",
-            post_id: invite._id,
-            offerer_id: invite.account,
-            requester_id: id[0]
-        })
+    let {id: event_id} = useParams(); //this is the event id passed as a param in the url
     const dispatch = useDispatch();
-    /*
-     useEffect(() => {
-         dispatch(action__verify__my__invitation(id[0],invite._id));
-     }, [invite]);
-     const exist = useSelector((state) => state.reducer__invitations);
-     //console.log(already_requested);
-     */
-
-    //ji
-
+    const [newMeeting, setNewMeeting] = useState({
+        event_id: event_id,
+        party_one_id: id[0],
+        party_two_id: invite.account,
+        unique_id: event_id + id[0] + invite.account,
+        description: ""
+    });
+    console.log(invite.account)
     const handleform = (e) => {
         e.preventDefault();
-            dispatch(action__post__invitations(request))
-          
+        dispatch(action__post__meetings(newMeeting))
+
         handleClose();
     }
-
-    const invi = (
+    return (
         <div className="modal-invitation">
-            {/*
-                exist.length > 0?
-                <Button variant="primary" className="btn-exist" onClick={handleShow}>
-                <CheckIcon/>
-            </Button>
-            :
             <Button variant="primary" className="btn-express" onClick={handleShow}>
-            <BusinessCenterIcon/>
-        </Button>
-            */}
-
-            <Button variant="primary" className="btn-express" onClick={handleShow}>
-                <BusinessCenterIcon />
+                <MeetingRoomIcon/>
             </Button>
 
             <Modal show={show} onHide={handleClose} className="modal" centered="centered">
@@ -74,11 +51,11 @@ const Invitation = ({ invite }) => {
                                 id="standard-basic"
                                 label="Your answer"
                                 onChange={(e) => {
-                                    setInvi({
-                                        ...request,
+                                    setNewMeeting({
+                                        ...newMeeting,
                                         description: e.target.value
-                                    });
-                                }} />
+                                    })
+                                }}/>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
@@ -90,17 +67,13 @@ const Invitation = ({ invite }) => {
                             Close
                         </Button>
                         <Button type="submit" className="btn-req">
-                            send request
+                            request meeting
                         </Button>
                     </Modal.Footer>
                 </Form>
             </Modal>
         </div>
-
     );
-
-    return invi
-
 }
 
-export default Invitation;
+export default RequestMeeting;
