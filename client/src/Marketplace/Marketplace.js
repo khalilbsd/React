@@ -56,11 +56,11 @@ const useStyles = makeStyles((theme) => ({
             color: 'black'
         }
     },
-    post:{
-        width:1000,
+    post: {
+        width: 1000
     },
-    add_btn:{
-        color:'#2196F3'
+    add_btn: {
+        color: '#2196F3'
     }
 }));
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -126,7 +126,7 @@ function Marketplace() {
                                         event_id === "generalmarketplace"
                                             ? null
                                             : <div>
-                                                    <AddProd/>
+                                                    <AddProd place={event_id}/>
                                                     <Button
                                                         variant="outlined"
                                                         className={classes.extract}
@@ -151,7 +151,7 @@ function Marketplace() {
                                                                     <FormControl className={classes.formControl}>
                                                                         <InputLabel id="demo-simple-select-label">My post</InputLabel>
                                                                         <Select
-                                                                             className={classes.post}
+                                                                            className={classes.post}
                                                                             labelId="demo-simple-select-label"
                                                                             id="demo-simple-select"
                                                                             autoWidth="true"
@@ -174,11 +174,11 @@ function Marketplace() {
                                                             </DialogContent>
                                                             <DialogActions>
                                                                 <Button onClick={handleClose} className={classes.add_btn}>
-                                                                Add Post
+                                                                    Add Post
                                                                 </Button>
                                                                 <Button onClick={handleClose} color="secondary">
-                                                                 
-                                                                  Close
+
+                                                                    Close
                                                                 </Button>
                                                             </DialogActions>
                                                         </Form>

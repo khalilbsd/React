@@ -11,10 +11,17 @@ import { action__post__invitations } from '../../actions/action__invitations.js'
 import { action__get__invitations } from '../../actions/action__invitations';
 import { useSelector } from 'react-redux';
 import { action__verify__my__invitation } from '../../actions/action__invitations';
+import {makeStyles} from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    description:{
+        width:'100%'
+    }
+}));
 
 
 const Invitation = ({ invite }) => {
+    const classes = useStyles();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -73,12 +80,14 @@ const Invitation = ({ invite }) => {
                             <TextField
                                 id="standard-basic"
                                 label="Your answer"
+                                className={classes.description}
                                 onChange={(e) => {
                                     setInvi({
                                         ...request,
                                         description: e.target.value
                                     });
-                                }} />
+                                }} 
+                                multiline/>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

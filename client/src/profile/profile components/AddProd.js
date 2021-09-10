@@ -157,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
         border:'1px solid lightgrey'
     }
 }));
-function AddProd({style}) {
+function AddProd({style,place}) {
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const id = useSelector((state) => state.reducer__login)
@@ -171,7 +171,8 @@ function AddProd({style}) {
         description: '',
         state: '',
         industrial_field: 'it',
-        account: id[0]
+        account: id[0],
+        place_id:place
     });
 
     const handleClose = () =>{
@@ -195,7 +196,7 @@ function AddProd({style}) {
     const handleform = (e) => {
         e.preventDefault();
         dispatch(action__post__posts(prodData));
-        console.log(prodData)
+        //console.log(prodData)
         handleClose();
     }
 
@@ -236,44 +237,6 @@ function AddProd({style}) {
                     <Modal.Body>
                         <Grid container="container" spacing={3}>
                             <Grid container="container" xs={6}>
-                                <Grid item="item" xs={12} className={classes.left}>
-                                    <Form.Row>
-                                        <Form.Group as={Col} className={classes.add_frm} onSubmit={handleform}>
-                                            <FormControl >
-                                                <InputLabel id="select-type-label">Marketplace</InputLabel>
-                                                <Select
-                                                    className={classes.typeInput}
-                                                    labelId="select-type-label"
-                                                    id="demo-simple-select"
-                                                    onChange={(e) => setPostData({
-                                                        ...prodData,
-                                                        place_id: e.target.value
-                                                    })}>
-                                                    <MenuItem value="generalmarketplace">General Marketplace</MenuItem>
-                                                    {
-                                                        !store__events
-                                                            ? store__participants.map((participant, key) => (
-                                                                participant.account_id == id[0]
-                                                                    ? (store__events.map((event, key2) => (
-                                                                        event._id == participant.event_id
-                                                                            ? (
-                                                                                <div>
-                                                                                    <MenuItem value={key2}>{event.title}</MenuItem>
-                                                                                    <hr></hr>
-                                                                                    </div>)
-                                                                            : (null)
-                                                                    )))
-                                                                    : (null)
-                                                            ))
-                                                            : <LinearProgress class={classes.loadingBar}/>
-                                                    }
-
-                                                </Select>
-                                            </FormControl>
-
-                                        </Form.Group>
-                                    </Form.Row>
-                                </Grid>
 
                                 <Grid item="item" xs={12} className={classes.left}>
                                     <Form.Row>

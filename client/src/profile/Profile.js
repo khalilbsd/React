@@ -111,7 +111,7 @@ function Profile() {
                                     : <PicInfo account={account}/>
 
                         }
-                        < AddProd id={id[0]}/>
+                        < AddProd id={id[0]} place={"generalmarketplace"} />
                     </Grid>
                     <Grid container="container" direction="row" xs={8}>
                         <Grid item="item" xs={12}>

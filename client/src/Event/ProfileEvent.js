@@ -9,6 +9,10 @@ import Location from './Profile events components/Location';
 import Main from './Profile events components/Main';
 import Sidebar from './Profile events components/Sidebar';
 import Duration from './Profile events components/Duration';
+//card
+import Card from '@material-ui/core/Card';
+//icon
+import LockIcon from '@material-ui/icons/Lock';
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import {action__get__one__event} from '../actions/action__events';
@@ -62,9 +66,22 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  icon:{
-    color:'#2196F3'
-  }
+    icon: {
+        color: '#2196F3'
+    },
+    pending_card: {
+        backgroundColor: '#f50057',
+        minHeight: 92,
+        marginBottom: 50
+    },
+    status: {
+        color: '#ffff',
+        verticalAlign: 'middle',
+        display: 'inline-flex',
+        marginLeft: 90,
+        marginTop: 25,
+        fontSize: 24
+    },
 }));
 
 const ProfileEvent = ({match, location}) => {
@@ -84,7 +101,7 @@ const ProfileEvent = ({match, location}) => {
         dispatch(action__get__one__event(id));
     }, [id]);
     const event = useSelector((state) => state.reducer__events);
-    console.log(event)
+    //console.log(event)
 
     return (
         <React.Fragment>
@@ -99,46 +116,59 @@ const ProfileEvent = ({match, location}) => {
                         </Grid>
                     </Grid>
 
-                   
-                        <Grid item="item" xs={8}>
-                            <AppBar
-                                position="static"
-                                style={{
-                                    background: 'white',
-                                    borderRadius: 5,
-                                    marginTop: 20
-                                }}>
-                                <Tabs
-                                    className={classes.tabs}
-                                    value={value}
-                                    onChange={handleChange}
-                                    indicatorColor="primary"
-                                    variant="fullWidth">
-                                    <Tab
-                                        icon={<DescriptionIcon className = {
-                                            classes.icon
-                                        } />}
-                                        className={classes.TabPanel}
-                                        {...a11yProps(0)}/>
-                                    <Tab
-                                        icon={<ScheduleIcon className = {
-                                            classes.icon
-                                        } />}
-                                        {...a11yProps(1)}/>
-                                </Tabs>
-                            </AppBar>
-                            <TabPanel value={value} index={0} dir={theme.direction}>
-                                <Main title="Description" event={event}/>
-                            </TabPanel>
-                            <TabPanel value={value} index={1} dir={theme.direction}>
-                                {<Agenda/>}
-                                
-                            </TabPanel>
-                        </Grid>
-                        <Grid item="item" xs={4} className={classes.test}>
-                            <Sidebar event_id={id}/>
-                        </Grid>
+                    <Grid item="item" xs={8}>
+                        <AppBar
+                            position="static"
+                            style={{
+                                background: 'white',
+                                borderRadius: 5,
+                                marginTop: 20
+                            }}>
+                            <Tabs
+                                className={classes.tabs}
+                                value={value}
+                                onChange={handleChange}
+                                indicatorColor="primary"
+                                variant="fullWidth">
+                                <Tab
+                                    icon={<DescriptionIcon className = {
+                                        classes.icon
+                                    } />}
+                                    className={classes.TabPanel}
+                                    {...a11yProps(0)}/>
+                                <Tab
+                                    icon={<ScheduleIcon className = {
+                                        classes.icon
+                                    } />}
+                                    {...a11yProps(1)}/>
+                            </Tabs>
+                        </AppBar>
+                        <TabPanel value={value} index={0} dir={theme.direction}>
+                            <Main title="Description" event={event}/>
+                        </TabPanel>
+                        <TabPanel value={value} index={1} dir={theme.direction}>
+                            {<Agenda/>}
+
+                        </TabPanel>
                     </Grid>
+                    <Grid item="item" xs={4} className={classes.test}>
+                        {
+                            event.state === "true"
+                                ? <Sidebar event_id={id}/>
+                                : <Card className={classes.pending_card}>
+                                        <Grid container="container" spacing={1}>
+                                            <div>
+                                                <div className={classes.status}>
+                                                    <LockIcon/>
+                                                    <span>Closed
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                    </Card>
+                        }
+                    </Grid>
+                </Grid>
             </Container>
         </React.Fragment>
     );

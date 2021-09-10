@@ -68,21 +68,21 @@ function Settings({_id}) {
     const classes = useStyles();
 
     const [updatedAccount, setUpdatedAccount] = useState({
-        email: "",
-        password: "",
+        email: useSelector((state) => state.reducer__accounts.email),
+        password: useSelector((state) => state.reducer__accounts.password),
         organization: {
-            name: "",
-            website: "",
-            logo: "",
-            address: "",
-            phone_number: "",
-            description: "",
+            name: useSelector((state) => state.reducer__accounts.organization.name),
+            website: useSelector((state) => state.reducer__accounts.organization.website),
+            logo: useSelector((state) => state.reducer__accounts.organization.logo),
+            address: useSelector((state) => state.reducer__accounts.organization.address),
+            phone_number: useSelector((state) => state.reducer__accounts.organization.phone_number),
+            description: useSelector((state) => state.reducer__accounts.organization.description),
             representative: {
-                first_name: "",
-                last_name: "",
-                job_position: "",
-                phone_number: "",
-                image: ""
+                first_name: useSelector((state) => state.reducer__accounts.organization.representative.first_name),
+                last_name: useSelector((state) => state.reducer__accounts.organization.representative.last_name),
+                job_position: useSelector((state) => state.reducer__accounts.organization.representative.job_position),
+                phone_number: useSelector((state) => state.reducer__accounts.organization.representative.phone_number),
+                image: useSelector((state) => state.reducer__accounts.organization.representative.image)
             }
         }
     });
@@ -94,7 +94,7 @@ function Settings({_id}) {
     }, [dispatch]);
 
     const store__account = useSelector((state) => state.reducer__accounts);
-    console.log(store__account);
+    //console.log(store__account);
 
     //const _id = useSelector((state) => state.reducer__login);
 
@@ -140,7 +140,7 @@ function Settings({_id}) {
     const handleForm = (e) => {
         e.preventDefault();
         dispatch(action__patch__accounts(store__account._id, updatedAccount));
-        //console.log(updatedAccount);
+        console.log(updatedAccount);
 
     }
 

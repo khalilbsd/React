@@ -17,6 +17,15 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+//contianer
+import Container from '@material-ui/core/Container';
+//dialog
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 /*redux*/
 import {action__get__one__post} from '../../actions/action__posts';
 import {action__get__one__account} from '../../actions/action__accounts';
@@ -24,6 +33,8 @@ import {action__patch__invitations} from '../../actions/action__invitations';
 import {action__delete__invitations} from '../../actions/action__invitations'
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
+import Button from "@material-ui/core/Button";
+
 /*style*/
 import moment from 'moment';
 import Empty from './Empty';
@@ -80,8 +91,14 @@ const useStyles = makeStyles((theme) => ({
     },
     loading:{
         width:'100%'
-    }
-
+    },
+    description:{
+        minWidth:'50%'
+    ,
+title:{
+    minWidth:'90%'
+}
+}
 }));
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -91,7 +108,6 @@ const Invitation = ({invite, place}) => {
     //console.log(invite)
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-   const [openDialog, setDialogOpen] = React.useState(false);
     //notification test
     
    
@@ -126,22 +142,26 @@ const Invitation = ({invite, place}) => {
     //console.log(offerer);
 
     const accept = () => {
+      
         if (window.confirm('Are you sure you wish to accept this invitation?')) {
             dispatch(action__patch__invitations(invite._id, accepted));
 
         }
     }
     const deny = () => {
+      
         if (window.confirm('Are you sure you wish to deny this invitation?')) {
             dispatch(action__patch__invitations(invite._id, denied));
         }
     }
     const cancel = ()=>{
-          dispatch(action__delete__invitations(invite._id));
+       
+        dispatch(action__delete__invitations(invite._id));
         
         
     }
     return (
+        <Container maxWidth="md">
             <Grid item xs={12} sm={6} md={12} className={classes.container}>
                 {           
                  !posts
@@ -156,7 +176,8 @@ const Invitation = ({invite, place}) => {
                                          {
                                             offerer.organization
                                                  ? <CardContent className={classes.content}>
-                                                        <Typography component="h5" variant="h5">
+
+                                                        <Typography component="h5" variant="h5" className={classes.title}>
                                                               {
                                                                 place === "incoming"
                                                                      ? <div>
@@ -176,7 +197,7 @@ const Invitation = ({invite, place}) => {
                                                                     <Typography variant="subtitle1" color="textSecondary">
                                                                         Product title: {posts.title}
                                                                     </Typography>
-                                                                    <Typography variant="subtitle2" color="textSecondary">
+                                                                    <Typography variant="subtitle2" color="textSecondary" className={classes.description}>
                                                                         the answer : {invite.description}
                                                                     </Typography>
                                                                     <Typography variant="subtitle2" color="textSecondary">
@@ -227,7 +248,7 @@ const Invitation = ({invite, place}) => {
                                                                             button="button"
                                                                             className="accept-btn"
                                                                             value={"accepted"}
-                                                                            onClick={accept}>
+                                                                            onClick={ accept}>
                                                                             <ListItemIcon >
                                                                                 <CheckIcon className="accept-btn"/>
                                                                             </ListItemIcon>
@@ -271,9 +292,13 @@ const Invitation = ({invite, place}) => {
 
 
 </h1>
+{/*dialog*/}
+{/*accept*/ }
+
+
             </Grid>
              
-        
+            </Container>
     );
 }
 

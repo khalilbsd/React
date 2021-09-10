@@ -24,7 +24,7 @@ export default function Agenda() {
     <MuiThemeProvider theme={theme}>
       <Paper>
         <Scheduler data={appointments} >
-          <ViewState currentDate="2021-06-28" />
+          <ViewState currentDate="2021-06-04" />
           <WeekView startDayHour={9} endDayHour={19} />
           <Appointments />
         </Scheduler>

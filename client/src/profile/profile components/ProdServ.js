@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     status_pending: {
         marginTop: '7%',
         backgroundColor: 'orange',
-        width: '70%',
+        width: '100%',
         color: 'white',
         textAlign: 'center',
         borderRadius: 100
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     status_accept: {
         marginTop: '7%',
         backgroundColor: 'green',
-        width: '70%',
+        width: '100%',
         color: 'white',
         textAlign: 'center',
         borderRadius: 100
@@ -175,6 +175,14 @@ const useStyles = makeStyles((theme) => ({
         width:'100%',
         backgroundColor:'#f50057',
         color:'white'
+    },
+    status_pending__toevent:{
+        marginTop: '7%',
+        backgroundColor: 'orange',
+        width: '100%',
+        color: 'white',
+        textAlign: 'center',
+        borderRadius: 100
     }
 }));
 
@@ -182,7 +190,7 @@ const useStyles = makeStyles((theme) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props}/>;
 });
-const ProdServ = ({post, admin}) => {
+const ProdServ = ({post, admin,event}) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
     const [show, setShow] = useState(false);
@@ -196,6 +204,7 @@ const ProdServ = ({post, admin}) => {
         state: post.state,
         industrial_field: post.industrial_field
     });
+    //console.log(event)
 
     const handleDialogkOpen = () => {
         setOpen(true);
@@ -255,7 +264,7 @@ const ProdServ = ({post, admin}) => {
                                                     className={classes.typeInput}
                                                     labelId="select-type-label"
                                                     id="demo-simple-select"
-                                                    value={post.type}
+                                                    value={UpPost.type}
                                                     onChange={(e) => setPostData({
                                                         ...UpPost,
                                                         type: e.target.value
@@ -279,7 +288,7 @@ const ProdServ = ({post, admin}) => {
                                                     className={classes.Ind}
                                                     labelId="select-type-label"
                                                     id="demo-simple-select"
-                                                    value={post.industrial_field}
+                                                    value={UpPost.industrial_field}
                                                     onChange={(e) => setPostData({
                                                         ...UpPost,
                                                         industrial_field: e.target.value
@@ -311,7 +320,7 @@ const ProdServ = ({post, admin}) => {
                                             className={classes.add_frm_state}
                                             aria-label="state"
                                             name="state"
-                                            value={post.state}
+                                            value={UpPost.state}
                                             onChange={(e) => setPostData({
                                                 ...UpPost,
                                                 state: e.target.value
@@ -332,7 +341,7 @@ const ProdServ = ({post, admin}) => {
                                                 className={classes.add_frm_title}
                                                 id="standard-basic"
                                                 label="Title"
-                                                value={post.title}
+                                                value={UpPost.title}
                                                 onChange={(e) => setPostData({
                                                     ...UpPost,
                                                     title: e.target.value
@@ -346,7 +355,7 @@ const ProdServ = ({post, admin}) => {
                                             <TextField
                                                 className={classes.add_frm_title}
                                                 id="desc"
-                                                value={post.description}
+                                                value={UpPost.description}
                                                 label="Description"
                                                 onChange={(e) => setPostData({
                                                     ...UpPost,
@@ -365,7 +374,7 @@ const ProdServ = ({post, admin}) => {
                                                 className={classes.add_frm_video}
                                                 id="video"
                                                 label="Youtube Link"
-                                                value={post.video}
+                                                value={UpPost.video}
                                                 onChange={(e) => setPostData({
                                                     ...UpPost,
                                                     video: e.target.value
@@ -449,13 +458,20 @@ const ProdServ = ({post, admin}) => {
                 <Grid item="item" xs={8}>
                     <Typography variant="body2" color="textSecondary" component="p" className="tag">
                         {
+                            !event?
                             post.verified_by_admin === "false"
                                 ? (<div class={classes.status_pending}>Pending</div>)
                                 : (
                                     <div class={classes.status_accept}>
                                         Approved</div>
                                 )
-
+                                :
+                                post.verified_by_admin === "false"
+                                ? (<div class={classes.status_pending__toevent}>Pending to an event</div>)
+                                : (
+                                    <div class={classes.status_accepted__to_event}>
+                                        Approved to{event}</div>
+                                )
                         }
                     </Typography>
                 </Grid>
